@@ -1,0 +1,11 @@
+%moveInAnimation {
+    transform: translate(-100%, 0);
+    animation-name: moveIn;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;}
+
+@keyframes moveIn {
+    0%   {transform: translate(-100%, 0)}
+    100% {transform: translate(0, 0)}
+}

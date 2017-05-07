@@ -1,0 +1,30 @@
+@import '../../../static/scss/extensions.scss';
+
+.timesListWrapper {
+    padding: 20px 0 0 20px;
+    max-height: 100px;
+    overflow: auto;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+            padding: 3px;
+            border-bottom: 1px solid #000000;
+            text-align: left
+        }
+
+        td {
+            padding: 3px;
+            border-bottom: 1px solid grey;
+        }
+
+        tfoot td {
+            border-bottom: 1px dashed #000000;
+        }
+    }
+
+    @extend %moveInAnimation;
+    animation-delay: 0.2s;
+}
