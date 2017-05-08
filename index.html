@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>timeTracker</title>
+</head>
+<body>
+    <div id="react-root"></div>
+
+    <link id="styles" rel="stylesheet" href="build/style.css"></link>
+    <script id="bundle" type="text/javascript" src="build/bundle.js"></link>
+    <script>
+        if(typeof process !== 'undefined' && process.env.ENVIRONMENT === 'DEV') {
+            var devEnv = 'http://localhost:8080/';
+            var stylesHref = documentGetElementById('styles').href;
+            var bundleSrc = documentGetElementById('bundle').src;
+
+            documentGetElementById('styles').href = devEnv + stylesHref;
+            documentGetElementById('bundle').src = devEnv + bundleSrc;
+        }
+    </script>
+</body>
+</html>
