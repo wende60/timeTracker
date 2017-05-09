@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
     <meta charset="utf-8" />
     <meta name="author" content="kgde@wendenburg.de">
-    
+
     <title>timeTracker</title>
 </head>
 <body>
     <div id="react-root"></div>
 
-    <link id="styles" rel="stylesheet" href="build/style.css"></link>
-    <script id="bundle" type="text/javascript" src="build/bundle.js"></link>
+    <link id="styles" rel="stylesheet" href="./build/style.css"></link>
+    <script id="bundle" type="text/javascript" src="./build/bundle.js"></link>
     <script>
         if(typeof process !== 'undefined' && process.env.ENVIRONMENT === 'DEV') {
             var devEnv = 'http://localhost:8080/';
-            var stylesHref = documentGetElementById('styles').href;
-            var bundleSrc = documentGetElementById('bundle').src;
+            var stylesHref = document.getElementById('styles').href;
+            var bundleSrc = document.getElementById('bundle').src;
 
-            documentGetElementById('styles').href = devEnv + stylesHref;
-            documentGetElementById('bundle').src = devEnv + bundleSrc;
+            document.getElementById('styles').href = devEnv + stylesHref;
+            document.getElementById('bundle').src = devEnv + bundleSrc;
         }
     </script>
 </body>
