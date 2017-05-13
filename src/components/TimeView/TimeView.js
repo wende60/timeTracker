@@ -30,6 +30,8 @@ class TimeView extends Component {
         const timeRecord = mode === 'start' ?
             createTimeRecord(
                 eventTime,
+                eventTime,
+                0,
                 this.props.customerId,
                 this.props.customer.name,
                 this.props.projectId,
@@ -43,6 +45,19 @@ class TimeView extends Component {
             this.setState({ record: null });
             pouchDB.updateAndFind(timeRecord, callback, queryTimes(this.props.projectId));
         }
+    }
+
+    updateTimeRecord = (id, start, end) => {
+        const timeRecord = createTimeRecord(
+                id,
+                start,
+                end,
+                this.props.customerId,
+                this.props.customer.name,
+                this.props.projectId,
+                this.props.project.name);
+
+        pouchDB.updateAndFind(timeRecord, this.displayGetTimes, queryTimes(this.props.projectId));
     }
 
     displayGetTimes = response => {
@@ -59,7 +74,9 @@ class TimeView extends Component {
 
                 {this.state.times &&
                     <TimesList
-                        times={this.state.times} />
+                        times={this.state.times}
+                        updateHandler={this.updateTimeRecord}
+                        isRecording={this.state.record} />
                 }
             </div>
         );

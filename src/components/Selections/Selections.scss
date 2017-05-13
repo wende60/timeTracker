@@ -2,9 +2,10 @@
 .selectionsWrapper {
     display: table;
     border-collapse: collapse;
-    width: 100%;
+    width: 50%;
     max-width: 500px;
     margin: 20px 0 20px 0;
+    float: right;
 
     p {
         display: table-row;

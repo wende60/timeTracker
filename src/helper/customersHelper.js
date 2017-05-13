@@ -14,43 +14,52 @@ export const createCompareString = string => {
  * ------------------------
  */
 export const queryCustomers = () => ({
-    selector: { type: 'customer', compare: { $gt: null }},
+    findParams: {
+        selector: { type: 'customer', compare: { $gt: null }},
+        sort: [{"compare": "asc"}]
+    },
     fields: ['compare', 'type', '_id'],
-    sort: [{"compare": "asc"}]
 });
 
 export const queryProjects = customerId => ({
-    selector: { type: 'project', compare: { $gt: null }, customerId },
+    findParams: {
+        selector: { type: 'project', compare: { $gt: null }, customerId },
+        sort: [{ 'compare': 'asc' }]
+    },
     fields: ['compare', 'type', 'customerId', '_id'],
-    sort: [{"compare": "asc"}]
 });
 
 export const queryTimes = projectId => ({
-    selector: { type: 'times', projectId },
-    fields: ['type', 'projectId', '_id'],
-    sort: [{ _id: 'desc' }]
+    findParams: {
+        selector: { type: 'times', projectId, start: { $gt: null }},
+        sort: [{ 'start': 'desc' }],
+        limit: 1
+    },
+    fields: ['start', 'type', 'projectId', '_id'],
 });
 
 export const queryAllCustomerData = customerId => ({
-    selector: {
-        $or: [
-            { customerId },
-            { _id: customerId }
-        ]
+    findParams: {
+        selector: {
+            $or: [
+                { customerId },
+                { _id: customerId }
+            ]
+        },
     },
     fields: ['customerId', '_id'],
-    sort: null
 });
 
 export const queryAllProjectData = projectId => ({
-    selector: {
-        $or: [
-            { projectId },
-            { _id: projectId }
-        ]
+    findParams: {
+        selector: {
+            $or: [
+                { projectId },
+                { _id: projectId }
+            ]
+        },
     },
     fields: ['projectId', '_id'],
-    sort: null
 });
 
 /**
@@ -58,13 +67,13 @@ export const queryAllProjectData = projectId => ({
  * Times helper
  * ------------------------
  */
-export const createTimeRecord = (start, customerId, customerName, projectId, projectName) => {
+export const createTimeRecord = (id, start, end = 0, customerId, customerName, projectId, projectName) => {
     const timeNow = new Date();
     return {
-        _id: start.toString(),
+        _id: id.toString(),
         type: 'times',
         start,
-        end: 0,
+        end,
         customerId,
         customerName,
         projectId,

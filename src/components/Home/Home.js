@@ -108,11 +108,13 @@ class Home extends Component {
     render() {
         return (
             <div className='homeWrapper'>
-                <h1>TimeTracker</h1>
+                <div className='selectionBar'>
+                    <h1>TimeTracker</h1>
 
-                <Selections
-                    customerName={this.state.customer ? this.state.customer.name : ''}
-                    projectName={this.state.project ? this.state.project.name : ''} />
+                    <Selections
+                        customerName={this.state.customer ? this.state.customer.name : ''}
+                        projectName={this.state.project ? this.state.project.name : ''} />
+                </div>
 
                 <div className='backToMainView'>
                     <p onClick={this.backToMainView}>Zurück zur Übersicht</p>

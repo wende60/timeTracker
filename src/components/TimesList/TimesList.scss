@@ -23,6 +23,11 @@
         tfoot td {
             border-bottom: 1px dashed #000000;
         }
+
+        .contentEditable {
+            background: red;
+            color: #ffffff;
+        }
     }
 
     @extend %moveInAnimation;

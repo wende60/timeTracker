@@ -2,8 +2,48 @@ import './TimesList.scss';
 import React, { PropTypes } from 'react';
 import timesHelper from '../../helper/timesHelper.js';
 
+timesHelper.init();
+
 const TimesList = props => {
+
     timesHelper.resetTotal();
+
+    const handleFieldLeave = (allData, field) => e => {
+        const el = e.currentTarget;
+        const edit = el.innerHTML;
+        const update = {
+            start: allData.start,
+            end: allData.end
+        };
+        switch (field) {
+            case 'date':
+                update.start = timesHelper.createDateFromFormattedStrings(edit, allData.formattedStart);
+                update.end = timesHelper.createDateFromFormattedStrings(edit, allData.formattedEnd);
+                break;
+            case 'start':
+                update.start = timesHelper.createDateFromFormattedStrings(allData.formattedDate, edit);
+                break;
+            case 'end':
+                update.end = timesHelper.createDateFromFormattedStrings(allData.formattedDate, edit);
+                break;
+        }
+
+        if (update.start && update.end && update.start < update.end) {
+            props.updateHandler(allData._id, update.start, update.end);
+        }
+
+        e.currentTarget.classList.remove('contentEditable');
+    }
+
+    const handleFieldEnter = e => {
+        if (props.isRecording) {
+            return false;
+        }
+
+        const el = e.currentTarget;
+        el.contentEditable = true;
+        el.classList.add('contentEditable');
+    }
 
     return (
         <div className='timesListWrapper'>
@@ -22,12 +62,19 @@ const TimesList = props => {
                         const formattedStart = timesHelper.getFormattedTime(row.start);
                         const formattedEnd = row.end ? timesHelper.getFormattedTime(row.end) : '';
                         const roundedHours = row.end ? timesHelper.getRoundedHours(row.start, row.end, 1000) : '';
+                        const allData = Object.assign({}, row, { formattedDate, formattedStart, formattedEnd });
 
                         return (
                             <tr key={index}>
-                                <td>{formattedDate}</td>
-                                <td>{formattedStart}</td>
-                                <td>{formattedEnd}</td>
+                                <td
+                                    onClick={handleFieldEnter}
+                                    onBlur={handleFieldLeave(allData, 'date')}>{formattedDate}</td>
+                                <td
+                                    onClick={handleFieldEnter}
+                                    onBlur={handleFieldLeave(allData, 'start')}>{formattedStart}</td>
+                                <td
+                                    onClick={handleFieldEnter}
+                                    onBlur={handleFieldLeave(allData, 'end')}>{formattedEnd}</td>
                                 <td>{roundedHours}</td>
                             </tr>
                         );

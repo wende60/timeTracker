@@ -46,9 +46,10 @@ const handlePouchDB = {
     },
 
     findDocs(cb, findQuery) {
-        const { fields, selector, sort } = findQuery;
+        const { fields, findParams } = findQuery;
+
         this.db.createIndex({ index: { fields }}, () => {
-            this.db.find({ selector, sort }, (err, response) => {
+            this.db.find(findParams, (err, response) => {
                 if (err) {
                     return console.info("findDocs error", err);
                 }
@@ -74,10 +75,10 @@ const handlePouchDB = {
     },
 
     deleteDocs(deleteQuery, cb = null, findQuery = null) {
-        const { fields, selector } = deleteQuery;
+        const { fields, findParams } = deleteQuery;
 
         this.db.createIndex({ index: { fields }}, () => {
-            this.db.find({ selector }, (err, response) => {
+            this.db.find({ findParams }, (err, response) => {
                 if (err) {
                     return console.info("deleteDocs find error", err);
                 }
