@@ -4,6 +4,8 @@ import pouchDB from '../../helper/handlePouchDB.js';
 import Selections from '../Selections/Selections.js';
 import MainView from '../MainView/MainView.js';
 import TimeView from '../TimeView/TimeView.js';
+import ManageView from '../ManageView/ManageView.js';
+
 import {
     queryCustomers,
     queryProjects
@@ -97,7 +99,7 @@ class Home extends Component {
         pouchDB.replaceDoc(currentState);
     }
 
-    changeView = view => {
+    changeView = view => e => {
         this.setState({view})
     }
 
@@ -117,12 +119,21 @@ class Home extends Component {
                 </div>
 
                 <div className='backToMainView'>
-                    <p onClick={this.backToMainView}>Zurück zur Übersicht</p>
+                    {this.state.customer &&
+                        <div>
+                            <span onClick={this.backToMainView}>Zurück zur Übersicht</span>
+                            {this.state.view === 'time' &&
+                                <span onClick={this.changeView('manage')}>Zeiten verwalten</span>
+                            }
+                            {this.state.view === 'manage' && this.state.projectId &&
+                                <span onClick={this.changeView('time')}>Zeit erfassen</span>
+                            }
+                        </div>
+                    }
                 </div>
 
                 {this.state.view === 'main' &&
                     <MainView
-                        changeView={this.changeView}
                         customers={this.state.customers}
                         customerId={this.state.customerId}
                         projectId={this.state.projectId}
@@ -136,12 +147,19 @@ class Home extends Component {
                 }
 
                 {this.state.view === 'time' &&
-                    <TimeView changeView={this.changeView}
-                        customers={this.state.customers}
+                    <TimeView
                         customerId={this.state.customerId}
                         projectId={this.state.projectId}
                         customer={this.state.customer}
                         project={this.state.project} />
+                }
+
+                {this.state.view === 'manage' &&
+                    <ManageView
+                        customerId={this.state.customerId}
+                        customer={this.state.customer}
+                        projects={this.state.project ?
+                            [this.state.project] : this.state.projects} />
                 }
             </div>
         );

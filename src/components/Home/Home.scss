@@ -19,9 +19,10 @@
 
     .backToMainView {
         padding: 10px 0 10px 0;
-        p {
+        span {
             cursor: pointer;
             color: red;
+            margin: 0 10px 0 0
         }
     }
 }

@@ -29,13 +29,29 @@ export const queryProjects = customerId => ({
     fields: ['compare', 'type', 'customerId', '_id'],
 });
 
-export const queryTimes = projectId => ({
+export const queryTimesLimited = (projectId, limit = 1) => ({
     findParams: {
         selector: { type: 'times', projectId, start: { $gt: null }},
         sort: [{ 'start': 'desc' }],
-        limit: 1
+        limit
     },
     fields: ['start', 'type', 'projectId', '_id'],
+});
+
+export const queryTimes = projectId => ({
+    findParams: {
+        selector: { type: 'times', projectId, start: { $gt: null }},
+        sort: [{ 'start': 'desc' }]
+    },
+    fields: ['start', 'type', 'projectId', '_id']
+});
+
+export const queryTimesCustomer = customerId => ({
+    findParams: {
+        selector: { type: 'times', customerId, projectId: { $gt: null }, start: { $gt: null }},
+        sort: [{ 'projectId': 'asc' }, { 'start': 'asc' }]
+    },
+    fields: ['projectId', 'start', 'type', 'customerId']
 });
 
 export const queryAllCustomerData = customerId => ({

@@ -29,7 +29,14 @@ const TimesList = props => {
         }
 
         if (update.start && update.end && update.start < update.end) {
-            props.updateHandler(allData._id, update.start, update.end);
+            props.updateHandler(
+                allData._id,
+                update.start,
+                update.end,
+                allData.customerId,
+                allData.customerName,
+                allData.projectId,
+                allData.projectName);
         }
 
         e.currentTarget.classList.remove('contentEditable');
@@ -80,14 +87,16 @@ const TimesList = props => {
                         );
                     })}
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{timesHelper.getTotal()}</td>
-                    </tr>
-                </tfoot>
+                {props.times.length > 1 &&
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{timesHelper.getTotal()}</td>
+                        </tr>
+                    </tfoot>
+                }
             </table>
         </div>
     );

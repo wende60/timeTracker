@@ -5,7 +5,7 @@ import TimeButton from '../TimeButton/TimeButton.js';
 import TimesList from '../TimesList/TimesList.js';
 import {
     createTimeRecord,
-    queryTimes
+    queryTimesLimited
 } from '../../helper/customersHelper.js';
 
 class TimeView extends Component {
@@ -17,7 +17,7 @@ class TimeView extends Component {
         }
 
         pouchDB.init();
-        pouchDB.findDocs(this.displayGetTimes, queryTimes(this.props.projectId));
+        pouchDB.findDocs(this.displayGetTimes, queryTimesLimited(this.props.projectId));
     }
 
     componentWillMount() {
@@ -40,24 +40,24 @@ class TimeView extends Component {
 
         if (mode === 'start') {
             this.setState({ record: timeRecord });
-            pouchDB.addDocToList(timeRecord, callback, queryTimes(this.props.projectId));
+            pouchDB.addDocToList(timeRecord, callback, queryTimesLimited(this.props.projectId));
         } else {
             this.setState({ record: null });
-            pouchDB.updateAndFind(timeRecord, callback, queryTimes(this.props.projectId));
+            pouchDB.updateAndFind(timeRecord, callback, queryTimesLimited(this.props.projectId));
         }
     }
 
-    updateTimeRecord = (id, start, end) => {
+    updateTimeRecord = (id, start, end, customerId, customerName, projectId, projectName) => {
         const timeRecord = createTimeRecord(
                 id,
                 start,
                 end,
-                this.props.customerId,
-                this.props.customer.name,
-                this.props.projectId,
-                this.props.project.name);
+                customerId,
+                customerName,
+                projectId,
+                projectName);
 
-        pouchDB.updateAndFind(timeRecord, this.displayGetTimes, queryTimes(this.props.projectId));
+        pouchDB.updateAndFind(timeRecord, this.displayGetTimes, queryTimesLimited(this.props.projectId));
     }
 
     displayGetTimes = response => {
@@ -68,7 +68,7 @@ class TimeView extends Component {
 
     render() {
         return (
-            <div className='TimeViewWrapper'>
+            <div className='timeViewWrapper'>
                 <TimeButton
                     buttonClick={this.createNewTimeRecord} />
 
