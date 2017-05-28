@@ -1,0 +1,18 @@
+.mainViewWrapper {
+
+    .errorMessage {
+        padding: 10px;
+        margin: 20px 0 20px 0;
+        background: red;
+        color: #fff;
+    }
+
+    .backToMainView {
+        padding: 10px 0 10px 0;
+        p {
+            cursor: pointer;
+            color: red;
+        }
+    }
+}
+

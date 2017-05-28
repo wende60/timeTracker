@@ -1,0 +1,33 @@
+@import '../../styles/extensions.scss';
+
+.timesListWrapper {
+    padding: 20px 0 20px 0;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+            padding: 3px;
+            border-bottom: 1px solid #000000;
+            text-align: left
+        }
+
+        td {
+            padding: 3px;
+            border-bottom: 1px solid grey;
+        }
+
+        tfoot td {
+            border-bottom: 1px dashed #000000;
+        }
+
+        .contentEditable {
+            background: red;
+            color: #ffffff;
+        }
+    }
+
+    @extend %moveInAnimation;
+    animation-delay: 0.2s;
+}

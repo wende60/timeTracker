@@ -1,0 +1,29 @@
+
+.homeWrapper {
+    min-height: 100%;
+    padding: 0 5% 0 5%;
+
+    .selectionBar {
+        overflow: hidden;
+
+        h1 {
+            font-size: 20px;
+            font-weight: normal;
+            padding: 20px 0 20px 0;
+            float: left;
+        }
+    }
+
+
+
+
+    .backToMainView {
+        padding: 10px 0 10px 0;
+        span {
+            cursor: pointer;
+            color: red;
+            margin: 0 10px 0 0
+        }
+    }
+}
+

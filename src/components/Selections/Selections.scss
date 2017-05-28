@@ -1,0 +1,25 @@
+
+.selectionsWrapper {
+    display: table;
+    border-collapse: collapse;
+    width: 50%;
+    max-width: 500px;
+    margin: 20px 0 20px 0;
+    float: right;
+
+    p {
+        display: table-row;
+
+        span {
+            display: table-cell;
+            padding: 3px 6px 3px 6px;
+            border: 1px solid grey;
+            width: 50%;
+            box-sizing: border-box;
+
+            &:last-child {
+                font-weight: bold;
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+@import '../../styles/extensions.scss';
+
+.itemFormWrapper {
+    h2 {
+        font-size: 18px;
+        padding: 20px 0 20px 0;
+    }
+
+    input[type=text] {
+        padding: 5px;
+        font-size: 15px;
+        border: 1px solid grey;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 5px;
+        font-size: 15px;
+        font-weight: bold;
+        color: #fff;
+        background: red;
+        border: 0 solid red;
+        margin: 0 0 0 10px;
+        box-sizing: border-box;
+    }
+
+    .inputErrorMessage {
+        color: red;
+        font-weight: bold;
+        padding: 3px 0 20px 0;
+    }
+
+    @extend %moveInAnimation;
+}
+
+
