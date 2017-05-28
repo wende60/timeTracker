@@ -4,12 +4,11 @@ const webpack = require('webpack');
 const webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-let argv = require('minimist')(process.argv.slice(2));
+const argv = require('minimist')(process.argv.slice(2));
 const isWeb = (argv && argv.target === 'web');
-const output = (isWeb ? 'build/web' : 'build/electron');
 const publicPath = (isWeb ? 'http://localhost:8080/build/' : path.join(__dirname, 'src'));
 
-let options = {
+const options = {
     context: __dirname + '/src',
     entry: './index.js',
 
