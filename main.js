@@ -1,7 +1,23 @@
 'use strict';
 
 const electron = require('electron');
-const {app, BrowserWindow, crashReporter} = electron;
+const { app, BrowserWindow, crashReporter, ipcMain, dialog } = electron;
+const fs = require('fs');
+
+
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.info(arg);
+  saveFile('testfile.txt', JSON.stringify(arg));
+  event.returnValue = 'done'
+});
+
+const saveFile = (fileName, fileContent) => {
+  dialog.showSaveDialog(fileName => {
+    fs.writeFile(fileName, fileContent, err => {
+
+    });
+  });
+}
 
 // Report crashes to our server.
 crashReporter.start({
@@ -9,7 +25,7 @@ crashReporter.start({
   companyName: 'kgde',
   submitURL: '',
   uploadToServer: false
-})
+});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

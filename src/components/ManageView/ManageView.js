@@ -7,6 +7,14 @@ import {
     queryTimesCustomer
 } from '../../helper/customersHelper.js';
 
+const isElectron = require('is-electron-renderer') ? true : false;
+let ipcRenderer = false;
+if (isElectron) {
+    ipcRenderer = require('electron').ipcRenderer;
+}
+
+console.info("ipcRenderer", ipcRenderer);
+
 class ManageView extends Component {
     constructor(props) {
         super(props);
@@ -41,8 +49,8 @@ class ManageView extends Component {
                 projectId: project._id,
                 projectName: project.name,
                 times: response.docs.filter(doc => {
-                        return doc.projectId === project._id;
-                    })
+                    return doc.projectId === project._id;
+                })
             }
         });
         if (!projectTimes.length) {
@@ -54,6 +62,15 @@ class ManageView extends Component {
         console.info(projectTimes)
     }
 
+    printTimes = data => e => {
+        //console.info('printTimes', data);
+        if (ipcRenderer) {
+            ipcRenderer.sendSync('synchronous-message', data);
+        } else {
+            console.info('Print not available');
+        }
+    }
+
     createProjectBlock = projectTimes => {
         return projectTimes.map((projectData, index) => {
             return (
@@ -63,6 +80,7 @@ class ManageView extends Component {
                         times={projectData.times}
                         updateHandler={this.updateTimeRecord}
                         isRecording={false} />
+                    <div onClick={this.printTimes(projectData)}>PRINT</div>
                 </div>
             )
         })
