@@ -5,7 +5,8 @@ const timesHelper = {
         formatDate: 'dd.mm.yyyy',
         formatTime: 'hh:mm',
         regExpDate: false,
-        regExpTime: false
+        regExpTime: false,
+        decimal: [',', '.'] // replace second with first
     },
 
     init() {
@@ -118,17 +119,27 @@ const timesHelper = {
 
     getRoundedHours(startMs, endMs, digits = 1000) {
         const seconds = (endMs - startMs) / 1000;
-        const hours = Math.round((seconds / 3600) * digits) / digits;
+        const hours = seconds / 3600;
+
+        // also summ up total hours here
         this.sum += hours;
-        return hours;
+        return this.formatValue(hours);
     },
 
     resetTotal() {
         this.sum = 0;
     },
 
-    getTotal(digits = 1000) {
-        return Math.round(this.sum * digits) / digits;
+    getTotal() {
+        return this.formatValue(this.sum);
+    },
+
+    formatValue(value) {
+        //const formatValue = parseFloat(value).toFixed(2);
+        //const stringValue = formatValue.toString();
+        //return stringValue.replace(this.config.decimal[1], this.config.decimal[0]);
+        return parseFloat(value).toFixed(2);
+
     }
 }
 

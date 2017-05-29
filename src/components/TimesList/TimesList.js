@@ -1,7 +1,6 @@
 import './TimesList.scss';
 import React, { PropTypes } from 'react';
 import timesHelper from '../../helper/timesHelper.js';
-
 timesHelper.init();
 
 const TimesList = props => {
@@ -68,7 +67,7 @@ const TimesList = props => {
                         const formattedDate = timesHelper.getFormattedDate(row.start);
                         const formattedStart = timesHelper.getFormattedTime(row.start);
                         const formattedEnd = row.end ? timesHelper.getFormattedTime(row.end) : '';
-                        const roundedHours = row.end ? timesHelper.getRoundedHours(row.start, row.end, 100) : '';
+                        const roundedHours = row.end ? timesHelper.getRoundedHours(row.start, row.end) : '';
                         const allData = Object.assign({}, row, { formattedDate, formattedStart, formattedEnd });
 
                         return (
@@ -93,7 +92,7 @@ const TimesList = props => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{timesHelper.getTotal(100)}</td>
+                            <td>{timesHelper.getTotal()}</td>
                         </tr>
                     </tfoot>
                 }

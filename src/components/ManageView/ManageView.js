@@ -7,13 +7,16 @@ import {
     queryTimesCustomer
 } from '../../helper/customersHelper.js';
 
+import timesHelper from '../../helper/timesHelper.js';
+timesHelper.init();
+
 const isElectron = require('is-electron-renderer') ? true : false;
 let ipcRenderer = false;
 if (isElectron) {
     ipcRenderer = require('electron').ipcRenderer;
 }
 
-console.info("ipcRenderer", ipcRenderer);
+const CSV = ';';
 
 class ManageView extends Component {
     constructor(props) {
@@ -62,10 +65,27 @@ class ManageView extends Component {
         console.info(projectTimes)
     }
 
-    printTimes = data => e => {
-        //console.info('printTimes', data);
+    printTimes = projectData => e => {
         if (ipcRenderer) {
-            ipcRenderer.sendSync('synchronous-message', data);
+            timesHelper.resetTotal();
+
+            const filecontent = [];
+            filecontent.push('Customer: ' + this.props.customer.name);
+            filecontent.push('Project: ' + projectData.projectName);
+            filecontent.push('Datum' + CSV + 'Start' + CSV + 'Ende' + CSV + 'Dauer');
+
+            projectData.times.map(row => {
+                const fileContentRow = [];
+                fileContentRow.push(timesHelper.getFormattedDate(row.start));
+                fileContentRow.push(timesHelper.getFormattedTime(row.start));
+                fileContentRow.push(timesHelper.getFormattedTime(row.end));
+                fileContentRow.push('"' + timesHelper.getRoundedHours(row.start, row.end) + '"');
+                filecontent.push(fileContentRow.join(CSV))
+            });
+            filecontent.push(CSV + CSV  + CSV + timesHelper.getTotal());
+            const filecontentString = filecontent.join('\n');
+
+            ipcRenderer.sendSync('synchronous-message', filecontentString);
         } else {
             console.info('Print not available');
         }
