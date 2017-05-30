@@ -1,5 +1,13 @@
-.timeViewWrapper {
-
-
+.manageViewWrapper {
+    .printButtonWrapper {
+        overflow: hidden;
+        padding: 0 0 20px 0;
+        .printButton {
+            display: inline-block;
+            float: right;
+            border: 1px solid grey;
+            padding: 3px;
+        }
+    }
 }
 
