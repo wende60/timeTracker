@@ -7,12 +7,12 @@ const fs = require('fs');
 
 ipcMain.on('synchronous-message', (event, arg) => {
   console.info(arg);
-  saveFile(arg);
+  saveFile(arg.defaultPath, arg.fileContent);
   event.returnValue = 'done'
 });
 
-const saveFile = (fileContent) => {
-  dialog.showSaveDialog(fileName => {
+const saveFile = (defaultPath, fileContent) => {
+  dialog.showSaveDialog({ defaultPath }, fileName => {
     if (fileName) {
       fs.writeFile(fileName, fileContent, 'utf8', err => {
 

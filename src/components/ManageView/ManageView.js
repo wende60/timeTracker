@@ -4,7 +4,8 @@ import pouchDB from '../../helper/handlePouchDB.js';
 import TimesList from '../TimesList/TimesList.js';
 import {
     createTimeRecord,
-    queryTimesCustomer
+    queryTimesCustomer,
+    createCompareString
 } from '../../helper/customersHelper.js';
 
 import timesHelper from '../../helper/timesHelper.js';
@@ -69,6 +70,8 @@ class ManageView extends Component {
         if (ipcRenderer) {
             timesHelper.resetTotal();
 
+            const fileName = this.props.customer.compare + '-' +
+                createCompareString(projectData.projectName) + '.csv';
             const filecontent = [];
             filecontent.push('Customer' + CSV + this.props.customer.name + CSV + CSV);
             filecontent.push('Project' + CSV + projectData.projectName + CSV + CSV);
@@ -88,7 +91,8 @@ class ManageView extends Component {
             filecontent.push(CSV + CSV  + CSV);
             const filecontentString = filecontent.join('\n');
 
-            ipcRenderer.sendSync('synchronous-message', filecontentString);
+            ipcRenderer.sendSync('synchronous-message',
+                {defaultPath: fileName, fileContent: filecontentString});
         } else {
             console.info('Print not available');
         }
@@ -103,7 +107,9 @@ class ManageView extends Component {
                         times={projectData.times}
                         updateHandler={this.updateTimeRecord}
                         isRecording={false} />
-                    <div onClick={this.printTimes(projectData)}>PRINT</div>
+                    <div className='printButtonWrapper'>
+                        <div className='printButton' onClick={this.printTimes(projectData)}>PRINT</div>
+                    </div>
                 </div>
             )
         })
