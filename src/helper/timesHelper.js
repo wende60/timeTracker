@@ -135,11 +135,9 @@ const timesHelper = {
     },
 
     formatValue(value) {
-        //const formatValue = parseFloat(value).toFixed(2);
-        //const stringValue = formatValue.toString();
-        //return stringValue.replace(this.config.decimal[1], this.config.decimal[0]);
-        return parseFloat(value).toFixed(2);
-
+        const formatValue = parseFloat(value).toFixed(2);
+        const stringValue = formatValue.toString();
+        return stringValue.replace(this.config.decimal[1], this.config.decimal[0]);
     }
 }
 

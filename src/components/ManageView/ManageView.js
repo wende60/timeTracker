@@ -70,8 +70,9 @@ class ManageView extends Component {
             timesHelper.resetTotal();
 
             const filecontent = [];
-            filecontent.push('Customer: ' + this.props.customer.name);
-            filecontent.push('Project: ' + projectData.projectName);
+            filecontent.push('Customer' + CSV + this.props.customer.name + CSV + CSV);
+            filecontent.push('Project' + CSV + projectData.projectName + CSV + CSV);
+            filecontent.push(CSV + CSV  + CSV);
             filecontent.push('Datum' + CSV + 'Start' + CSV + 'Ende' + CSV + 'Dauer');
 
             projectData.times.map(row => {
@@ -79,10 +80,12 @@ class ManageView extends Component {
                 fileContentRow.push(timesHelper.getFormattedDate(row.start));
                 fileContentRow.push(timesHelper.getFormattedTime(row.start));
                 fileContentRow.push(timesHelper.getFormattedTime(row.end));
-                fileContentRow.push('"' + timesHelper.getRoundedHours(row.start, row.end) + '"');
+                fileContentRow.push(timesHelper.getRoundedHours(row.start, row.end) + ' h');
                 filecontent.push(fileContentRow.join(CSV))
             });
-            filecontent.push(CSV + CSV  + CSV + timesHelper.getTotal());
+            filecontent.push(CSV + CSV  + CSV + timesHelper.getTotal() + ' h');
+            // empty footer line as number-bugfix
+            filecontent.push(CSV + CSV  + CSV);
             const filecontentString = filecontent.join('\n');
 
             ipcRenderer.sendSync('synchronous-message', filecontentString);
