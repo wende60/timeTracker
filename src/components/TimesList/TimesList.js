@@ -1,10 +1,8 @@
 import './TimesList.scss';
 import React, { PropTypes } from 'react';
 import timesHelper from '../../helper/timesHelper.js';
-timesHelper.init();
 
 const TimesList = props => {
-
     timesHelper.resetTotal();
 
     const handleFieldLeave = (allData, field) => e => {

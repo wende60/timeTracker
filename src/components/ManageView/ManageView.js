@@ -1,15 +1,15 @@
 import './ManageView.scss';
 import React, { PropTypes, Component } from 'react';
 import pouchDB from '../../helper/handlePouchDB.js';
+import TimesFilter from '../TimesFilter/TimesFilter.js';
 import TimesList from '../TimesList/TimesList.js';
 import {
     createTimeRecord,
     queryTimesCustomer,
+    queryTimesCustomerFiltered,
     createCompareString
 } from '../../helper/customersHelper.js';
-
 import timesHelper from '../../helper/timesHelper.js';
-timesHelper.init();
 
 const isElectron = require('is-electron-renderer') ? true : false;
 let ipcRenderer = false;
@@ -61,7 +61,6 @@ class ManageView extends Component {
             projectTimes = null;
         };
 
-
         this.setState({ projectTimes });
         console.info(projectTimes)
     }
@@ -98,7 +97,7 @@ class ManageView extends Component {
         }
     }
 
-    createProjectBlock = projectTimes => {
+    createProjectBlocks = projectTimes => {
         return projectTimes.map((projectData, index) => {
             return (
                 <div key={index}>
@@ -108,18 +107,31 @@ class ManageView extends Component {
                         updateHandler={this.updateTimeRecord}
                         isRecording={false} />
                     <div className='printButtonWrapper'>
-                        <div className='printButton' onClick={this.printTimes(projectData)}>PRINT</div>
+                        <div className='printButton' onClick={this.printTimes(projectData)}>Export</div>
                     </div>
                 </div>
             )
         })
     }
 
+    timesFilterChange = (filterTimeStart, filterTimeEnd) => {
+        if (filterTimeStart && filterTimeEnd) {
+            pouchDB.findDocs(this.displayCustomerTimes,
+                queryTimesCustomerFiltered(this.props.customerId, filterTimeStart, filterTimeEnd));
+        } else {
+            pouchDB.findDocs(this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
+        }
+    }
+
     render() {
         return (
             <div className='manageViewWrapper'>
                 {this.state.projectTimes ?
-                    this.createProjectBlock(this.state.projectTimes) : <h3>Keine Zeiten verfügbar</h3>
+                    <div>
+                        <TimesFilter
+                            timesFilterChange={this.timesFilterChange} />
+                        {this.createProjectBlocks(this.state.projectTimes)}
+                    </div> : <h3>Keine Zeiten verfügbar</h3>
                 }
             </div>
         )
