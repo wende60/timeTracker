@@ -47,7 +47,7 @@ class TimesFilter extends Component {
 
     getMonths = () => {
         return [
-            { value: 0, label: 'all' },
+            { value: '', label: 'all' },
             { value: 1, label: 'Januar' },
             { value: 2, label: 'Februar' },
             { value: 3, label: 'März' },

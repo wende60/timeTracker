@@ -104,14 +104,18 @@ class ManageView extends Component {
         return projectTimes.map((projectData, index) => {
             return (
                 <div key={index}>
-                    <h3>{projectData.projectName}</h3>
-                    <TimesList
-                        times={projectData.times}
-                        updateHandler={this.updateTimeRecord}
-                        isRecording={false} />
-                    <div className='printButtonWrapper'>
-                        <div className='printButton' onClick={this.printTimes(projectData)}>Export</div>
-                    </div>
+                    {projectData.times.length ?
+                        <div>
+                            <h3>{projectData.projectName}</h3>
+                            <TimesList
+                                times={projectData.times}
+                                updateHandler={this.updateTimeRecord}
+                                isRecording={false} />
+                            <div className='printButtonWrapper'>
+                                <div className='printButton' onClick={this.printTimes(projectData)}>Export</div>
+                            </div>
+                        </div> : <h3>In diesem Zeitraum sind keine Zeiten verfügbar</h3>
+                    }
                 </div>
             )
         })
@@ -134,7 +138,7 @@ class ManageView extends Component {
                         <TimesFilter
                             timesFilterChange={this.timesFilterChange} />
                         {this.createProjectBlocks(this.state.projectTimes)}
-                    </div> : <h3>Keine Zeiten verfügbar</h3>
+                    </div> : <h3>Für diesen Kunden gibt es noch kein Projekt</h3>
                 }
             </div>
         )
