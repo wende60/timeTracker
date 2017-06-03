@@ -11,6 +11,9 @@ import {
 } from '../../helper/customersHelper.js';
 import timesHelper from '../../helper/timesHelper.js';
 
+// todo, set locale here
+timesHelper.init();
+
 const isElectron = require('is-electron-renderer') ? true : false;
 let ipcRenderer = false;
 if (isElectron) {

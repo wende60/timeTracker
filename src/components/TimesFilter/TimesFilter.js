@@ -2,12 +2,12 @@ import './TimesFilter.scss';
 import React, { PropTypes, Component } from 'react';
 import timesHelper from '../../helper/timesHelper.js';
 
+// todo, set locale here
+timesHelper.init();
+
 class TimesFilter extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            error: false
-        }
     }
 
     handleFilterChange = e => {
@@ -77,9 +77,6 @@ class TimesFilter extends Component {
                         onChange={this.handleFilterChange}>
                             {this.getOptions(this.getMonths())}
                     </select>
-                    {this.state.error &&
-                        <p className='inputErrorMessage'>Bitte Datum checken</p>
-                    }
                 </form>
             </div>
         )

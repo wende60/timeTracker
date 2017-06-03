@@ -151,5 +151,4 @@ const timesHelper = {
     }
 };
 
-timesHelper.init();
 module.exports = timesHelper;

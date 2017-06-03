@@ -2,6 +2,9 @@ import './TimesList.scss';
 import React, { PropTypes } from 'react';
 import timesHelper from '../../helper/timesHelper.js';
 
+// todo, set locale here
+timesHelper.init();
+
 const TimesList = props => {
     timesHelper.resetTotal();
 
