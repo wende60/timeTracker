@@ -114,7 +114,7 @@ class ManageView extends Component {
                             <div className='printButtonWrapper'>
                                 <div className='printButton' onClick={this.printTimes(projectData)}>Export</div>
                             </div>
-                        </div> : <h3>In diesem Zeitraum sind keine Zeiten verfügbar</h3>
+                        </div> : <h3 className='messageHeader'>In diesem Zeitraum sind keine Zeiten verfügbar</h3>
                     }
                 </div>
             )
@@ -138,7 +138,7 @@ class ManageView extends Component {
                         <TimesFilter
                             timesFilterChange={this.timesFilterChange} />
                         {this.createProjectBlocks(this.state.projectTimes)}
-                    </div> : <h3>Für diesen Kunden gibt es noch kein Projekt</h3>
+                    </div> : <h3 className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</h3>
                 }
             </div>
         )
