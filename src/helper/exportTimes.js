@@ -50,3 +50,4 @@ export const exportTimes = (customer, projectData) => e => {
         console.info('Export is not available in web environment');
     }
 }
+
