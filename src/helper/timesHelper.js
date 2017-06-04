@@ -10,6 +10,7 @@ const timesHelper = {
     },
 
     init() {
+        console.info('INIT');
         const formatPartsDate = this.config.formatDate.split(this.config.formatRegEx);
         const regExpDate = formatPartsDate.map(item => {
             if (/[a-z]/i.exec(item)) {
@@ -45,6 +46,10 @@ const timesHelper = {
             timeParts[1],
             timeParts[2],
             timeParts[3] || 0).getTime();
+    },
+
+    createDateFromParts(y,m,d,h = 0, i = 0, s = 0) {
+        return new Date(y, m -1, d, h, i, s).getTime();
     },
 
     createFormattedDate(date, month, year) {
@@ -138,7 +143,13 @@ const timesHelper = {
         const formatValue = parseFloat(value).toFixed(2);
         const stringValue = formatValue.toString();
         return stringValue.replace(this.config.decimal[1], this.config.decimal[0]);
+    },
+
+    getLastDayOfMonth(y,m) {
+        const lastDate = new Date(y, m, 0);
+        return lastDate.getDate();
     }
-}
+};
 
 module.exports = timesHelper;
+
