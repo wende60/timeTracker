@@ -5,6 +5,8 @@ import timesHelper from '../../helper/timesHelper.js';
 // todo, set locale here
 timesHelper.init();
 
+const HOUR_UNIT = 'h';
+
 const TimesList = props => {
     timesHelper.resetTotal();
 
@@ -16,19 +18,25 @@ const TimesList = props => {
             end: allData.end
         };
         switch (field) {
-            case 'date':
-                update.start = timesHelper.createDateFromFormattedStrings(edit, allData.formattedStart);
-                update.end = timesHelper.createDateFromFormattedStrings(edit, allData.formattedEnd);
+            case 'startDate':
+                update.start = timesHelper.createDateFromFormattedStrings(edit, allData.formattedStartTime);
+                update.end = (update.end > update.start) ? update.end : update.start;
                 break;
-            case 'start':
-                update.start = timesHelper.createDateFromFormattedStrings(allData.formattedDate, edit);
+            case 'endDate':
+                update.end = timesHelper.createDateFromFormattedStrings(edit, allData.formattedEndTime);
+                update.start = (update.start < update.end) ? update.start : update.end;
                 break;
-            case 'end':
-                update.end = timesHelper.createDateFromFormattedStrings(allData.formattedDate, edit);
+            case 'startTime':
+                update.start = timesHelper.createDateFromFormattedStrings(allData.formattedStartDate, edit);
+                update.end = (update.end > update.start) ? update.end : update.start;
+                break;
+            case 'endTime':
+                update.end = timesHelper.createDateFromFormattedStrings(allData.formattedEndDate, edit);
+                update.start = (update.start < update.end) ? update.start : update.end;
                 break;
         }
 
-        if (update.start && update.end && update.start < update.end) {
+        if (update.start && update.end) {
             props.updateHandler(
                 allData._id,
                 update.start,
@@ -57,32 +65,44 @@ const TimesList = props => {
             <table>
                 <thead>
                     <tr>
-                        <th>Datum</th>
+                        <th>Startdatum</th>
                         <th>Startzeit</th>
+                        <th>Enddatum</th>
                         <th>Endzeit</th>
-                        <th>Dauer (Stunden)</th>
+                        <th>Dauer</th>
                     </tr>
                 </thead>
                 <tbody>
                     {props.times.map((row, index) => {
-                        const formattedDate = timesHelper.getFormattedDate(row.start);
-                        const formattedStart = timesHelper.getFormattedTime(row.start);
-                        const formattedEnd = row.end ? timesHelper.getFormattedTime(row.end) : '';
+                        const formattedStartDate = timesHelper.getFormattedDate(row.start);
+                        const formattedEndDate = row.end ? timesHelper.getFormattedDate(row.end) : '';
+                        const formattedStartTime = timesHelper.getFormattedTime(row.start);
+                        const formattedEndTime = row.end ? timesHelper.getFormattedTime(row.end) : '';
                         const roundedHours = row.end ? timesHelper.getRoundedHours(row.start, row.end) : '';
-                        const allData = Object.assign({}, row, { formattedDate, formattedStart, formattedEnd });
+                        const hourUnit = row.end ? HOUR_UNIT : '';
+                        const allData = Object.assign({}, row, {
+                            formattedStartDate,
+                            formattedEndDate,
+                            formattedStartTime,
+                            formattedEndTime
+                        });
 
+                        const styles = row._id === props.updated ? 'rowUpdated' : 'rowNorm';
                         return (
-                            <tr key={index}>
+                            <tr key={index} className={styles}>
                                 <td
                                     onMouseDown={handleFieldEnter}
-                                    onBlur={handleFieldLeave(allData, 'date')}>{formattedDate}</td>
+                                    onBlur={handleFieldLeave(allData, 'startDate')}>{formattedStartDate}</td>
                                 <td
                                     onMouseDown={handleFieldEnter}
-                                    onBlur={handleFieldLeave(allData, 'start')}>{formattedStart}</td>
+                                    onBlur={handleFieldLeave(allData, 'startTime')}>{formattedStartTime}</td>
                                 <td
                                     onMouseDown={handleFieldEnter}
-                                    onBlur={handleFieldLeave(allData, 'end')}>{formattedEnd}</td>
-                                <td>{roundedHours}</td>
+                                    onBlur={handleFieldLeave(allData, 'endDate')}>{formattedEndDate}</td>
+                                <td
+                                    onMouseDown={handleFieldEnter}
+                                    onBlur={handleFieldLeave(allData, 'endTime')}>{formattedEndTime}</td>
+                                <td>{roundedHours} {hourUnit}</td>
                             </tr>
                         );
                     })}
@@ -93,7 +113,8 @@ const TimesList = props => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{timesHelper.getTotal()}</td>
+                            <td></td>
+                            <td>{timesHelper.getTotal()} {HOUR_UNIT}</td>
                         </tr>
                     </tfoot>
                 }
