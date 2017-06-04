@@ -5,6 +5,8 @@ import timesHelper from '../../helper/timesHelper.js';
 // todo, set locale here
 timesHelper.init();
 
+const HOUR_UNIT = 'h';
+
 const TimesList = props => {
     timesHelper.resetTotal();
 
@@ -73,10 +75,11 @@ const TimesList = props => {
                 <tbody>
                     {props.times.map((row, index) => {
                         const formattedStartDate = timesHelper.getFormattedDate(row.start);
-                        const formattedEndDate = timesHelper.getFormattedDate(row.end);
+                        const formattedEndDate = row.end ? timesHelper.getFormattedDate(row.end) : '';
                         const formattedStartTime = timesHelper.getFormattedTime(row.start);
                         const formattedEndTime = row.end ? timesHelper.getFormattedTime(row.end) : '';
                         const roundedHours = row.end ? timesHelper.getRoundedHours(row.start, row.end) : '';
+                        const hourUnit = row.end ? HOUR_UNIT : '';
                         const allData = Object.assign({}, row, {
                             formattedStartDate,
                             formattedEndDate,
@@ -99,7 +102,7 @@ const TimesList = props => {
                                 <td
                                     onMouseDown={handleFieldEnter}
                                     onBlur={handleFieldLeave(allData, 'endTime')}>{formattedEndTime}</td>
-                                <td>{roundedHours} h</td>
+                                <td>{roundedHours} {hourUnit}</td>
                             </tr>
                         );
                     })}
@@ -111,7 +114,7 @@ const TimesList = props => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{timesHelper.getTotal()} h</td>
+                            <td>{timesHelper.getTotal()} {HOUR_UNIT}</td>
                         </tr>
                     </tfoot>
                 }
