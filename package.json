@@ -20,14 +20,13 @@
     "style-loader": "^0.13.0",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.3",
-    "webpack-target-electron-renderer": "^0.4.0",
-    "is-electron-renderer": "^2.0.1"
+    "webpack-merge": "^4.1.0"
   },
   "scripts": {
-    "electron": "webpack --target electron && electron .",
-    "web": "webpack-dev-server --target web --hot --inline",
+    "electron": "webpack --config webpack.config.electron.js electron && electron .",
+    "web": "webpack-dev-server --config webpack.config.web.js --hot --inline",
     "//": "IMPORTANT! make sure to ignore the target directory when packing!",
-    "bin": "webpack --target electron -p && electron-packager ./ timeTracker --out ./bin --platform darwin --arch x64 --version=1.7.2 --overwrite --ignore=\"ignore|bin|node_modules\""
+    "bin": "webpack  --config webpack.config.electron.js electron -p && electron-packager ./ timeTracker --out ./bin --platform darwin --arch x64 --version=1.7.2 --overwrite --ignore=\"ignore|bin|node_modules\""
   },
   "dependencies": {
     "pouchdb-browser": "^6.2.0",

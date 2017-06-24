@@ -4,7 +4,7 @@ import { createCompareString } from './customersHelper.js';
 // todo, set locale here
 timesHelper.init();
 
-const isElectron = require('is-electron-renderer') ? true : false;
+const isElectron = process.env.NODE_ENV === 'electron' ? true : false;
 let ipcRenderer = false;
 if (isElectron) {
     ipcRenderer = require('electron').ipcRenderer;

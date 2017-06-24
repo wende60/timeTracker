@@ -6,7 +6,7 @@ const fs = require('fs');
 
 
 ipcMain.on('synchronous-message', (event, arg) => {
-  console.info(arg);
+  console.info('ipcMain', arg);
   saveFile(arg.defaultPath, arg.fileContent);
   event.returnValue = 'done'
 });
