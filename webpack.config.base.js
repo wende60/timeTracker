@@ -1,22 +1,9 @@
-
-const path = require('path');
 const webpack = require('webpack');
-const webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const argv = require('minimist')(process.argv.slice(2));
-const isWeb = (argv && argv.target === 'web');
-const publicPath = (isWeb ? 'http://localhost:8080/build/' : path.join(__dirname, 'src'));
-
-const options = {
+const webpackConfig = {
     context: __dirname + '/src',
     entry: './index.js',
-
-    output: {
-        path: __dirname + '/build',
-        publicPath: publicPath,
-        filename: 'bundle.js'
-    },
 
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
@@ -52,16 +39,8 @@ const options = {
 
     plugins: [
         new ExtractTextPlugin("style.css")
-    ],
-
-    node: {
-        fs: 'empty'
-    }
+    ]
 };
 
-options.target = webpackTargetElectronRenderer(options);
-module.exports = options;
-
-
-
+module.exports = webpackConfig;
 
