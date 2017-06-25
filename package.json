@@ -26,7 +26,7 @@
     "electron": "webpack --config webpack.config.electron.js electron && electron .",
     "web": "webpack-dev-server --config webpack.config.web.js --hot --inline",
     "//": "IMPORTANT! make sure to ignore the target directory when packing!",
-    "bin": "webpack  --config webpack.config.electron.js electron -p && electron-packager ./ timeTracker --out ./bin --platform darwin --arch x64 --version=1.7.2 --overwrite --ignore=\"ignore|bin|node_modules\""
+    "bin": "webpack  --config webpack.config.electron.js electron -p && electron-packager ./ timeTracker --out ./bin --platform darwin --arch x64 --version=1.7.2 --icon=assets/timeTracker.icns --overwrite --ignore=\"ignore|bin|node_modules\""
   },
   "dependencies": {
     "pouchdb-browser": "^6.2.0",
