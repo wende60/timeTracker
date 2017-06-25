@@ -46,7 +46,7 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({width: 700, height: 700});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -54,7 +54,7 @@ app.on('ready', function() {
   // Only open dev tools in dev environment
   //if(process.env.ENVIRONMENT === 'DEV') {
     // Open the DevTools.
-    mainWindow.openDevTools();
+    // mainWindow.openDevTools();
   //}
 
   // Emitted when the window is closed.

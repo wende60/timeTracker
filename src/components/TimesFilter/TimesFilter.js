@@ -66,6 +66,7 @@ class TimesFilter extends Component {
     render() {
         return (
             <div className='timesFilterWrapper'>
+                <div>Zeiten filtern</div>
                 <form>
                     <select
                         ref='selectedYear'

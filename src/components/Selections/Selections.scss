@@ -2,8 +2,7 @@
 .selectionsWrapper {
     display: table;
     border-collapse: collapse;
-    width: 50%;
-    max-width: 500px;
+    width: 80%;
     margin: 20px 0 20px 0;
     float: right;
 
@@ -12,13 +11,20 @@
 
         span {
             display: table-cell;
-            padding: 3px 6px 3px 6px;
-            border: 1px solid grey;
+            padding: 6px 6px 6px 6px;
+            border-bottom: 1px solid #36A8FF;
             width: 50%;
             box-sizing: border-box;
+            font-weight: lighter;
+            color: #ffffff;
+
+            &:first-child {
+                opacity: 0.5;
+                text-transform: uppercase;
+            }
 
             &:last-child {
-                font-weight: bold;
+                opacity: 1;
             }
         }
     }

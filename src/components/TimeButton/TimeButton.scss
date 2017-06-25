@@ -2,18 +2,17 @@
 
 .timeButtonWrapper {
     padding: 50px 0 50px;
-    background: #000;
 
     .timeButton {
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        border: 10px solid #fff;
-        background: red;
+        border: 20px solid #f76504;
+        background: #ffb600;
         margin: auto;
         text-align: center;
         box-sizing: border-box;
-
+        box-shadow: 10px 3px 0px rgba(0,0,0,0.2);
 
         p {
             vertical-align: middle;
@@ -33,10 +32,11 @@
         }
 
         &.timeButtonDown {
-            border: 16px solid #fff;
+            border: 26px solid #f76504;
 
             p {
-                font-size: 24px;
+                font-size: 26px;
+                text-transform: uppercase;
             }
         }
 
@@ -51,7 +51,7 @@
 }
 
 @keyframes glowing {
-    0%   {box-shadow: 0px 0px 70px rgba(255,220,50,0.2)}
-    50% {box-shadow: 0px 0px 70px rgba(255,220,50,1)}
-    100% {box-shadow: 0px 0px 70px rgba(255,220,50,0.2)}
+    0%   {box-shadow: 0px 0px 70px 20px rgba(255,255,255,0.4); background: #ffb600;}
+    50% {box-shadow: 0px 0px 70px 20px rgba(255,255,255,1); background: #fff0b5;}
+    100% {box-shadow: 0px 0px 70px 20px rgba(255,255,255,0.4); background: #ffb600;}
 }

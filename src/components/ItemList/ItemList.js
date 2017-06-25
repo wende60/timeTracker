@@ -7,8 +7,12 @@ const ItemList = props => {
             { props.items.map((item, index) => {
                 return (
                     <li key={index}>
-                        <span data-item={item._id} onClick={props.selectClick}>{item.name}</span>
-                        <span data-item={item._id} onClick={props.deleteClick}>Löschen</span>
+                        <div>
+                            <span data-item={item._id} onClick={props.selectClick}>{item.name}</span>
+                        </div>
+                        <div>
+                            <span data-item={item._id} onClick={props.deleteClick} className='deleteButton'>-</span>
+                        </div>
                     </li>
                 )
             })}

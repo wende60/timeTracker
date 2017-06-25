@@ -6,7 +6,10 @@ class ItemForm extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {error: false}
+        this.state = {
+            error: false,
+            displayInput: false
+        }
 
         this.errorMessage = {
             customer: 'Bitte Kunden eintragen!',
@@ -14,13 +17,13 @@ class ItemForm extends Component {
         }
 
         this.buttonText = {
-            customer: 'Neuen Kunden anlegen',
-            project: 'Neues Projekt anlegen'
+            customer: 'Kunde anlegen',
+            project: 'Projekt anlegen'
         }
 
         this.headerText = {
-            customer: 'Bitte Kunden auswählen oder neu anlegen',
-            project: 'Bitte Projekt auswählen oder neu anlegen'
+            customer: 'Bitte Kunden wählen',
+            project: 'Bitte Projekt wählen'
         }
 
         this.placeholderText = {
@@ -39,9 +42,14 @@ class ItemForm extends Component {
         if (str) {
             this.props.buttonClick(str);
             this.refs.inputElement.value = '';
+            this.setState({displayInput: false})
         } else {
             this.setState({error: true})
         }
+    }
+
+    displayInput = () => {
+        this.setState({displayInput: true})
     }
 
     resetError = () => {
@@ -52,7 +60,10 @@ class ItemForm extends Component {
         return (
             <div className='itemFormWrapper'>
 
-                <h2>{this.headerText[this.props.mode]}</h2>
+                <h2>
+                    {this.headerText[this.props.mode]}
+                    <span onClick={this.displayInput} className='addButton'>+</span>
+                </h2>
 
                 {this.props.items &&
                     <ItemList
@@ -61,17 +72,19 @@ class ItemForm extends Component {
                         deleteClick={this.props.deleteClick} />
                 }
 
-                <form onSubmit={this.sender}>
-                    <input
-                        type="text"
-                        placeholder={this.placeholderText[this.props.mode]}
-                        ref="inputElement"
-                        onFocus={this.resetError} />
-                    <button>{this.buttonText[this.props.mode]}</button>
-                    {this.state.error &&
-                        <p className='inputErrorMessage'>{this.errorMessage[this.props.mode]}</p>
-                    }
-                </form>
+                {this.state.displayInput &&
+                    <form onSubmit={this.sender}>
+                        <input
+                            type="text"
+                            placeholder={this.placeholderText[this.props.mode]}
+                            ref="inputElement"
+                            onFocus={this.resetError} />
+                        <button>{this.buttonText[this.props.mode]}</button>
+                        {this.state.error &&
+                            <p className='inputErrorMessage'>{this.errorMessage[this.props.mode]}</p>
+                        }
+                    </form>
+                }
             </div>
         );
     }
