@@ -15,6 +15,7 @@ class ManageView extends Component {
         super(props);
         this.state = {
             projectTimes: null,
+            initialCall: false,
             updated: 0
         }
 
@@ -55,17 +56,19 @@ class ManageView extends Component {
             projectTimes = null;
         };
 
-        this.setState({ projectTimes });
-        console.info(projectTimes)
+        this.setState({ projectTimes, initialCall: true });
     }
 
     createProjectBlocks = projectTimes => {
         return projectTimes.map((projectData, index) => {
             return (
-                <div key={index}>
+                <div key={index} className='projectBlockWrapper'>
                     {projectData.times.length ?
                         <div>
-                            <h3>{projectData.projectName}</h3>
+                            <h3>
+                                <div>Projekt: </div>
+                                {projectData.projectName}
+                            </h3>
                             <TimesList
                                 times={projectData.times}
                                 updateHandler={this.updateTimeRecord}
@@ -90,7 +93,15 @@ class ManageView extends Component {
         }
     }
 
+    createCustomerMessageHeader = () => {
+        const header = this.state.initialCall ?
+                        <h3 className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</h3> : null;
+        return header;
+    }
+
     render() {
+            console.info('initialCall done', this.state.initialCall)
+
         return (
             <div className='manageViewWrapper'>
                 {this.state.projectTimes ?
@@ -98,7 +109,10 @@ class ManageView extends Component {
                         <TimesFilter
                             timesFilterChange={this.timesFilterChange} />
                         {this.createProjectBlocks(this.state.projectTimes)}
-                    </div> : <h3 className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</h3>
+                    </div> :
+                    <div>
+                        {this.createCustomerMessageHeader()}
+                    </div>
                 }
             </div>
         )

@@ -8,26 +8,41 @@
 
     input[type=text] {
         padding: 5px;
+        height: 36px;
         font-size: 15px;
-        border: 1px solid grey;
+        border: 2px solid #ffffff;
         box-sizing: border-box;
+        background: transparent;
+        border-radius: 5px;
+        color: #ffffff;
+
+        &::placeholder {
+            color: #bce3ff;
+        }
     }
 
     button {
-        padding: 5px;
+        padding: 5px 20px;
+        height: 36px;
         font-size: 15px;
-        font-weight: bold;
+        font-weight: normal;
         color: #fff;
-        background: red;
-        border: 0 solid red;
+        background: #f76504;
+        border: 2px solid #ffffff;
+        border-radius: 5px;
         margin: 0 0 0 10px;
         box-sizing: border-box;
+        text-transform: uppercase;
     }
 
     .inputErrorMessage {
         color: red;
         font-weight: bold;
         padding: 3px 0 20px 0;
+    }
+
+    .addButton {
+        @extend %plusMinusButton;
     }
 
     @extend %moveInAnimation;

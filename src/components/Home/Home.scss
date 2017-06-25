@@ -1,28 +1,28 @@
+@import '../../styles/extensions.scss';
 
 .homeWrapper {
     min-height: 100%;
     padding: 0 5% 0 5%;
 
     .selectionBar {
-        overflow: hidden;
+        display: flex;
+        align-items: center;
+        & > div {
+            flex-basis: 50%;
+        }
 
         h1 {
-            font-size: 20px;
-            font-weight: normal;
+            font-size: 46px;
+            font-weight: lighter;
             padding: 20px 0 20px 0;
-            float: left;
+            opacity: 0.5;
         }
     }
 
-
-
-
-    .backToMainView {
+    .timeTrackerNavi {
         padding: 10px 0 10px 0;
         span {
-            cursor: pointer;
-            color: red;
-            margin: 0 10px 0 0
+            @extend %iconButton;
         }
     }
 }

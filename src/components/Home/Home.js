@@ -111,24 +111,27 @@ class Home extends Component {
         return (
             <div className='homeWrapper'>
                 <div className='selectionBar'>
-                    <h1>TimeTracker</h1>
-
-                    <Selections
-                        customerName={this.state.customer ? this.state.customer.name : ''}
-                        projectName={this.state.project ? this.state.project.name : ''} />
+                    <div>
+                        <h1>TimeTracker</h1>
+                    </div>
+                    <div>
+                        <Selections
+                            customerName={this.state.customer ? this.state.customer.name : ''}
+                            projectName={this.state.project ? this.state.project.name : ''} />
+                    </div>
                 </div>
 
-                <div className='backToMainView'>
+                <div className='timeTrackerNavi'>
                     {this.state.customer &&
                         <div>
-                            <span onClick={this.backToMainView}>Zurück zur Übersicht</span>
+                            <span className='homeButton' onClick={this.backToMainView} title='Home'>H</span>
 
                             {this.state.view !== 'manage' &&
-                                <span onClick={this.changeView('manage')}>Zeiten verwalten</span>
+                                <span className='editButton' onClick={this.changeView('manage')} title='Edit'>E</span>
                             }
 
                             {this.state.view === 'manage' && this.state.projectId &&
-                                <span onClick={this.changeView('time')}>Zeit erfassen</span>
+                                <span className='timeButton' onClick={this.changeView('time')} title='Time'>T</span>
                             }
                         </div>
                     }

@@ -6,29 +6,32 @@
     table {
         width: 100%;
         border-collapse: collapse;
+        color: #ffffff;
 
         th {
             padding: 3px;
-            border-bottom: 1px solid #000000;
-            text-align: left
+            border-bottom: 1px solid #36A8FF;
+            text-align: left;
+            font-weight: normal;
+            text-transform: uppercase;
         }
 
         td {
             padding: 3px;
-            border-bottom: 1px solid grey;
+            border-bottom: 1px solid #36A8FF;
         }
 
         tfoot td {
-            border-bottom: 1px dashed #000000;
+            border-bottom: 1px solid #36A8FF;
         }
 
         .rowUpdated {
-            background: #e9e9e9;
+            background: #0082e5;
         }
 
         .contentEditable {
-            background: red;
-            color: #ffffff;
+            background: #ffb600;
+            color: #000000;
         }
     }
 

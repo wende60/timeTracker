@@ -60,7 +60,7 @@ class TimeButton extends Component {
                     onMouseDown={this.mouseDown}
                     onMouseUp={this.mouseUp}
                     onClick={this.toggleTimeRunner} >
-                    <p>Press</p>
+                    <p>push</p>
                 </div>
 
             </div>
