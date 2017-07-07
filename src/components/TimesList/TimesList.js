@@ -45,6 +45,23 @@ const TimesList = props => {
                 allData.customerName,
                 allData.projectId,
                 allData.projectName);
+        } else {
+            // error, reset edited field
+            switch (field) {
+                case 'startDate':
+                    el.innerHTML = allData.formattedStartDate;
+                    break;
+                case 'endDate':
+                    el.innerHTML = allData.formattedEndDate;
+                    break;
+                case 'startTime':
+                    el.innerHTML = allData.formattedStartTime;
+                    break;
+                case 'endTime':
+                    el.innerHTML = allData.formattedEndTime;
+                    break;
+            }
+            e.currentTarget.classList.add('contentError');
         }
 
         e.currentTarget.classList.remove('contentEditable');
@@ -57,6 +74,7 @@ const TimesList = props => {
 
         const el = e.currentTarget;
         el.contentEditable = true;
+        e.currentTarget.classList.remove('contentError');
         el.classList.add('contentEditable');
     }
 

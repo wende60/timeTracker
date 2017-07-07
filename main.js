@@ -52,10 +52,10 @@ app.on('ready', function() {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Only open dev tools in dev environment
-  //if(process.env.ENVIRONMENT === 'DEV') {
+  if (process.env.NODE_ENV === 'web') {
     // Open the DevTools.
-    // mainWindow.openDevTools();
-  //}
+    mainWindow.openDevTools();
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

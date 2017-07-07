@@ -10,6 +10,18 @@
     100% {transform: translate(0, 0)}
 }
 
+%fadeOutErrorAnimation {
+    animation-name: fadeOutError;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;}
+
+@keyframes fadeOutError {
+    0%   {background: #e60000}
+    50%  {background: #ffffff}
+    100% {background: transparent}
+}
+
 %iconButton {
     width: 28px;
     height: 28px;

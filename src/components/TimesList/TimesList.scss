@@ -33,6 +33,12 @@
             background: #ffb600;
             color: #000000;
         }
+
+        .contentError {
+            background: #e60000;
+            @extend %fadeOutErrorAnimation;
+            animation-delay: 2s;
+        }
     }
 
     @extend %moveInAnimation;
