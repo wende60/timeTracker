@@ -100,8 +100,6 @@ class ManageView extends Component {
     }
 
     render() {
-            console.info('initialCall done', this.state.initialCall)
-
         return (
             <div className='manageViewWrapper'>
                 {this.state.projectTimes ?

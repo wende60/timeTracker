@@ -10,7 +10,6 @@ const timesHelper = {
     },
 
     init() {
-        console.info('INIT');
         const formatPartsDate = this.config.formatDate.split(this.config.formatRegEx);
         const regExpDate = formatPartsDate.map(item => {
             if (/[a-z]/i.exec(item)) {
