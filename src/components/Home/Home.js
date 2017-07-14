@@ -108,23 +108,24 @@ class Home extends Component {
     }
 
     changeView = view => e => {
+        this.setState({ error: false });
         switch (view) {
             case 'time':
                 if (this.state.projectId) {
-                    this.setState({view});
+                    this.setState({ view });
                 } else {
                     this.setState({ error: 'Bitte erst Kunde und Projekt wählen' });
                 }
                 break;
-            case 'manage':
+            case 'edit':
                 if (this.state.customerId) {
-                    this.setState({view});
+                    this.setState({ view });
                 } else {
                     this.setState({ error: 'Bitte zumindestens Kunde, oder Kunde und Projekt wählen' });
                 }
                 break;
             default:
-                this.setState({view});
+                this.setState({ view });
         }
     }
 
@@ -134,9 +135,14 @@ class Home extends Component {
 
     render() {
 
-        const mainClass = this.state.view === 'main' ? 'selected' : '';
-        const timeClass = this.state.view === 'time' ? 'selected' : '';
-        const editClass = this.state.view === 'manage' ? 'selected' : '';
+        const timeActiveClass = this.state.customerId && this.state.projectId ? 'isActive' : 'inActive';
+        const editActiveClass = this.state.customerId ? 'isActive' : 'inActive';
+        const classes = {
+            main: ['homeButton', 'isActive'],
+            time: ['timeButton', timeActiveClass],
+            edit: ['editButton', editActiveClass]
+        };
+        classes[this.state.view].push('selected');
 
         return (
             <div className='homeWrapper'>
@@ -153,16 +159,16 @@ class Home extends Component {
 
                 <div className='timeTrackerNavi'>
                     <div>
-                        <span className={`homeButton ${mainClass}`}
+                        <span className={classes.main.join(' ')}
                             onClick={this.backToMainView} title='Home'
                             dangerouslySetInnerHTML={{__html:iconOverview}}></span>
 
-                        <span className={`timeButton ${timeClass}`}
+                        <span className={classes.time.join(' ')}
                             onClick={this.changeView('time')} title='Time'
                             dangerouslySetInnerHTML={{__html:iconRecord}}></span>
 
-                        <span className={`editButton ${editClass}`}
-                            onClick={this.changeView('manage')} title='Edit'
+                        <span className={classes.edit.join(' ')}
+                            onClick={this.changeView('edit')} title='Edit'
                             dangerouslySetInnerHTML={{__html:iconEdit}}></span>
                     </div>
                 </div>
@@ -193,7 +199,7 @@ class Home extends Component {
                         project={this.state.project} />
                 }
 
-                {this.state.view === 'manage' &&
+                {this.state.view === 'edit' &&
                     <ManageView
                         customerId={this.state.customerId}
                         customer={this.state.customer}
