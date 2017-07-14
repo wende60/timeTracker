@@ -13,51 +13,63 @@
         margin: 0 0 10px 0;
     }
 
-    .selectionBar {
-        display: flex;
-        align-items: center;
-        & > div {
-            flex-basis: 50%;
-        }
-
+    .topBar {
         h1 {
             font-size: 46px;
+            letter-spacing: 6px;
             font-weight: lighter;
             padding: 20px 0 20px 0;
             opacity: 0.5;
         }
     }
 
-    .timeTrackerNavi {
-        padding: 10px 0 10px 0;
-        span {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            margin: 0 20px 0 0;
-            cursor: pointer;
+    .timeTrackerBar {
 
-            svg {
-                width: 100%;
-                height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0 30px 0;
 
-                circle {
-                    fill: #7FC7FF !important;
-                }
-            }
+        .timeTrackerNavi {
+            flex-basis: 40%;
+            white-space: nowrap;
+            span {
+                display: inline-block;
+                width: 60px;
+                height: 60px;
+                margin: 0 15px 0 0;
+                cursor: pointer;
 
-            &.isActive:hover,
-            &.selected {
                 svg {
+                    width: 100%;
+                    height: auto;
+
                     circle {
-                        fill: #ffb600 !important;
+                        fill: #7FC7FF !important;
                     }
                 }
-            }
 
-            &.inActive {
-                opacity: 0.3;
+                &.isActive:hover,
+                &.selected {
+                    svg {
+                        circle {
+                            fill: #ffb600 !important;
+                        }
+                    }
+                }
+
+                &.inActive {
+                    opacity: 0.3;
+                }
+
+                &:last-child {
+                    margin: 0;
+                }
             }
+        }
+
+        .timeTrackerSelection {
+            flex-basis: 55%;
         }
     }
 }

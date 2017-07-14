@@ -146,30 +146,32 @@ class Home extends Component {
 
         return (
             <div className='homeWrapper'>
-                <div className='selectionBar'>
+                <div className='topBar'>
                     <div>
                         <h1>TimeTracker</h1>
                     </div>
-                    <div>
+                </div>
+
+                <div className='timeTrackerBar'>
+                    <div className='timeTrackerNavi'>
+                        <div>
+                            <span className={classes.main.join(' ')}
+                                onClick={this.backToMainView} title='Home'
+                                dangerouslySetInnerHTML={{__html:iconOverview}}></span>
+
+                            <span className={classes.time.join(' ')}
+                                onClick={this.changeView('time')} title='Time'
+                                dangerouslySetInnerHTML={{__html:iconRecord}}></span>
+
+                            <span className={classes.edit.join(' ')}
+                                onClick={this.changeView('edit')} title='Edit'
+                                dangerouslySetInnerHTML={{__html:iconEdit}}></span>
+                        </div>
+                    </div>
+                    <div className='timeTrackerSelection'>
                         <Selections
                             customerName={this.state.customer ? this.state.customer.name : ''}
                             projectName={this.state.project ? this.state.project.name : ''} />
-                    </div>
-                </div>
-
-                <div className='timeTrackerNavi'>
-                    <div>
-                        <span className={classes.main.join(' ')}
-                            onClick={this.backToMainView} title='Home'
-                            dangerouslySetInnerHTML={{__html:iconOverview}}></span>
-
-                        <span className={classes.time.join(' ')}
-                            onClick={this.changeView('time')} title='Time'
-                            dangerouslySetInnerHTML={{__html:iconRecord}}></span>
-
-                        <span className={classes.edit.join(' ')}
-                            onClick={this.changeView('edit')} title='Edit'
-                            dangerouslySetInnerHTML={{__html:iconEdit}}></span>
                     </div>
                 </div>
 
