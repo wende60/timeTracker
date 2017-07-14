@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232 233">
+  <title>iconsTimeTrackerOverview</title>
+  <g id="kreis">
+    <circle cx="116" cy="116" r="116" style="fill: #fff"/>
+  </g>
+  <g id="customer">
+    <path fill="#0060aa" d="M87,109c-2,14-7,24-19,24s-17-10-19-24,7-24,19-24S89,94,87,109Z"/>
+    <path fill="#0060aa" d="M113,180c-3-34-14-51-45-51s-45,13-53,43a116,116,0,0,0,102,60h1C116,214,115,198,113,180ZM74,194l-6,12-6-12,3-44-5-7,7-6,7,6-5,7Z"/>
+  </g>
+  <g id="project_customer" data-name="project customer">
+    <polyline id="frame" points="137 126 105 126 105 29 172 29 172 63" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+    <g id="lines">
+      <line x1="117" y1="51" x2="160" y2="51" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+      <line x1="117" y1="68" x2="136" y2="68" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+      <line x1="117" y1="85" x2="136" y2="85" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+      <line x1="117" y1="103" x2="136" y2="103" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+    </g>
+  </g>
+  <g id="project_customer_Kopie" data-name="project customer Kopie">
+    <rect id="frame-2" data-name="frame" x="137" y="62" width="67" height="96.65" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+    <g id="lines_Kopie_2" data-name="lines Kopie 2">
+      <line x1="149" y1="84" x2="192" y2="84" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+      <line x1="149" y1="102" x2="192" y2="102" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+      <line x1="149" y1="118" x2="192" y2="118" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+      <line x1="149" y1="137" x2="192" y2="137" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
+    </g>
+  </g>
+</svg>

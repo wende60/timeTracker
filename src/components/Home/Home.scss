@@ -4,6 +4,14 @@
     min-height: 100%;
     padding: 0 5% 0 5%;
 
+    .messageHeader {
+        padding: 20px;
+        background: #f76504;
+        color: #ffffff;
+        border: 2px solid #ffffff;
+        border-radius: 5px;
+    }
+
     .selectionBar {
         display: flex;
         align-items: center;
@@ -22,7 +30,30 @@
     .timeTrackerNavi {
         padding: 10px 0 10px 0;
         span {
-            @extend %iconButton;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            margin: 0 20px 0 0;
+            opacity: 1;
+            cursor: pointer;
+
+            svg {
+                width: 100%;
+                height: auto;
+
+                circle {
+                    fill: #7FC7FF !important;
+                }
+            }
+
+            &:hover,
+            &.selected {
+                svg {
+                    circle {
+                        fill: #ffb600 !important;
+                    }
+                }
+            }
         }
     }
 }

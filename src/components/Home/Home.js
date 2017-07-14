@@ -5,6 +5,10 @@ import Selections from '../Selections/Selections.js';
 import MainView from '../MainView/MainView.js';
 import TimeView from '../TimeView/TimeView.js';
 import ManageView from '../ManageView/ManageView.js';
+import iconOverview from '../../assets/iconsTimeTrackerOverview.svg';
+import iconRecord from '../../assets/iconsTimeTrackerRecord.svg';
+import iconEdit from '../../assets/iconsTimeTrackerEdit.svg';
+
 
 import {
     queryCustomers,
@@ -57,7 +61,8 @@ class Home extends Component {
     setStateCustomers = response => {
         const customers = response.docs || null;
         this.setState({
-            customers
+            customers,
+            error: false
         });
     }
 
@@ -66,7 +71,8 @@ class Home extends Component {
         const customer = response;
         this.setState({
             customerId,
-            customer
+            customer,
+            error: false
         });
         pouchDB.findDocs(this.setStateProjects, queryProjects(customerId));
     }
@@ -76,7 +82,8 @@ class Home extends Component {
         const project = false;
         this.setState({
             projects,
-            project
+            project,
+            error: false
         });
     }
 
@@ -87,7 +94,8 @@ class Home extends Component {
         this.setState({
             projectId,
             project,
-            view
+            view,
+            error: false
         });
     }
 
@@ -100,7 +108,24 @@ class Home extends Component {
     }
 
     changeView = view => e => {
-        this.setState({view})
+        switch (view) {
+            case 'time':
+                if (this.state.projectId) {
+                    this.setState({view});
+                } else {
+                    this.setState({ error: 'Bitte erst Kunde und Projekt wählen' });
+                }
+                break;
+            case 'manage':
+                if (this.state.customerId) {
+                    this.setState({view});
+                } else {
+                    this.setState({ error: 'Bitte zumindestens Kunde, oder Kunde und Projekt wählen' });
+                }
+                break;
+            default:
+                this.setState({view});
+        }
     }
 
     backToMainView = () => {
@@ -108,6 +133,11 @@ class Home extends Component {
     }
 
     render() {
+
+        const mainClass = this.state.view === 'main' ? 'selected' : '';
+        const timeClass = this.state.view === 'time' ? 'selected' : '';
+        const editClass = this.state.view === 'manage' ? 'selected' : '';
+
         return (
             <div className='homeWrapper'>
                 <div className='selectionBar'>
@@ -122,20 +152,24 @@ class Home extends Component {
                 </div>
 
                 <div className='timeTrackerNavi'>
-                    {this.state.customer &&
-                        <div>
-                            <span className='homeButton' onClick={this.backToMainView} title='Home'>H</span>
+                    <div>
+                        <span className={`homeButton ${mainClass}`}
+                            onClick={this.backToMainView} title='Home'
+                            dangerouslySetInnerHTML={{__html:iconOverview}}></span>
 
-                            {this.state.view !== 'manage' &&
-                                <span className='editButton' onClick={this.changeView('manage')} title='Edit'>E</span>
-                            }
+                        <span className={`timeButton ${timeClass}`}
+                            onClick={this.changeView('time')} title='Time'
+                            dangerouslySetInnerHTML={{__html:iconRecord}}></span>
 
-                            {this.state.view === 'manage' && this.state.projectId &&
-                                <span className='timeButton' onClick={this.changeView('time')} title='Time'>T</span>
-                            }
-                        </div>
-                    }
+                        <span className={`editButton ${editClass}`}
+                            onClick={this.changeView('manage')} title='Edit'
+                            dangerouslySetInnerHTML={{__html:iconEdit}}></span>
+                    </div>
                 </div>
+
+                {this.state.error &&
+                    <div className='messageHeader'>{ this.state.error }</div>
+                }
 
                 {this.state.view === 'main' &&
                     <MainView
