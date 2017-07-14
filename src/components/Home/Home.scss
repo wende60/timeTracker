@@ -10,6 +10,7 @@
         color: #ffffff;
         border: 2px solid #ffffff;
         border-radius: 5px;
+        margin: 0 0 10px 0;
     }
 
     .selectionBar {
@@ -34,7 +35,6 @@
             width: 60px;
             height: 60px;
             margin: 0 20px 0 0;
-            opacity: 1;
             cursor: pointer;
 
             svg {
@@ -46,13 +46,17 @@
                 }
             }
 
-            &:hover,
+            &.isActive:hover,
             &.selected {
                 svg {
                     circle {
                         fill: #ffb600 !important;
                     }
                 }
+            }
+
+            &.inActive {
+                opacity: 0.3;
             }
         }
     }

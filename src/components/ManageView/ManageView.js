@@ -77,7 +77,7 @@ class ManageView extends Component {
                             <div className='printButtonWrapper'>
                                 <div className='printButton' onClick={exportTimes(this.props.customer, projectData)}>Export</div>
                             </div>
-                        </div> : <h3 className='messageHeader'>In diesem Zeitraum sind keine Zeiten verfügbar</h3>
+                        </div> : <div className='messageHeader'>In diesem Zeitraum sind keine Zeiten verfügbar</div>
                     }
                 </div>
             )
@@ -95,7 +95,7 @@ class ManageView extends Component {
 
     createCustomerMessageHeader = () => {
         const header = this.state.initialCall ?
-                        <h3 className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</h3> : null;
+                        <div className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</div> : null;
         return header;
     }
 
