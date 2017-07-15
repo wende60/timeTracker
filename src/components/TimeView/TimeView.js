@@ -77,6 +77,7 @@ class TimeView extends Component {
                     <TimesList
                         times={this.state.times}
                         updateHandler={this.updateTimeRecord}
+                        deleteHandler={null}
                         isRecording={this.state.record}
                         updated={0} />
                 }

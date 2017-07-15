@@ -42,6 +42,14 @@ class ManageView extends Component {
         pouchDB.updateAndFind(timeRecord, this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
     }
 
+    deleteTimeRecord = rowData => {
+        const timeRecordString = rowData.formattedStartDate + ' ' + rowData.formattedStartTime;
+        if (confirm('Echt jetzt, Zeiterfassung vom ' + timeRecordString + ' löschen?')) {
+            this.setState({ updated: 0 });
+            pouchDB.deleteDoc(rowData._id, this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
+        }
+    }
+
     displayCustomerTimes = response => {
         let projectTimes = this.props.projects.map(project => {
             return {
@@ -72,6 +80,7 @@ class ManageView extends Component {
                             <TimesList
                                 times={projectData.times}
                                 updateHandler={this.updateTimeRecord}
+                                deleteHandler={this.deleteTimeRecord}
                                 isRecording={false}
                                 updated={this.state.updated} />
                             <div className='printButtonWrapper'>
