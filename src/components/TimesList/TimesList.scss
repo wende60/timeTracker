@@ -39,6 +39,14 @@
             @extend %fadeOutErrorAnimation;
             animation-delay: 2s;
         }
+
+        .deleteButtonWrapper {
+            text-align: right;
+        }
+
+        .deleteButton {
+            @extend %plusMinusButton;
+        }
     }
 
     @extend %moveInAnimation;

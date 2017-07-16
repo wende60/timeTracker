@@ -67,6 +67,12 @@ const TimesList = props => {
         e.currentTarget.classList.remove('contentEditable');
     }
 
+    const handleRowDelete = allData => e => {
+        if (props.deleteHandler) {
+            props.deleteHandler(allData);
+        }
+    }
+
     const handleFieldEnter = e => {
         if (props.isRecording) {
             return false;
@@ -88,6 +94,9 @@ const TimesList = props => {
                         <th>Enddatum</th>
                         <th>Endzeit</th>
                         <th>Dauer</th>
+                        {props.deleteHandler &&
+                            <th></th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -121,6 +130,12 @@ const TimesList = props => {
                                     onMouseDown={handleFieldEnter}
                                     onBlur={handleFieldLeave(allData, 'endTime')}>{formattedEndTime}</td>
                                 <td>{roundedHours} {hourUnit}</td>
+
+                                {props.deleteHandler &&
+                                    <td className='deleteButtonWrapper'>
+                                        <span className='deleteButton' onClick={handleRowDelete(allData)}>-</span>
+                                    </td>
+                                }
                             </tr>
                         );
                     })}
@@ -133,6 +148,9 @@ const TimesList = props => {
                             <td></td>
                             <td></td>
                             <td>{timesHelper.getTotal()} {HOUR_UNIT}</td>
+                            {props.deleteHandler &&
+                                <td></td>
+                            }
                         </tr>
                     </tfoot>
                 }
