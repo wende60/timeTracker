@@ -32,25 +32,26 @@
         padding: 10px 0 10px 0;
         span {
             display: inline-block;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             margin: 0 20px 0 0;
             cursor: pointer;
+            transform: scale(1);
+            transition: transform 0.4s;
 
             svg {
                 width: 100%;
                 height: auto;
-
-                circle {
-                    fill: #7FC7FF !important;
-                }
             }
 
-            &.isActive:hover,
+            &.isActive:hover {
+                transform: scale(1.1);
+            }
+
             &.selected {
                 svg {
-                    circle {
-                        fill: #ffb600 !important;
+                    path {
+                        fill: #FFB600 !important;
                     }
                 }
             }
