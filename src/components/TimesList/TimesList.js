@@ -132,8 +132,8 @@ const TimesList = props => {
                                 <td>{roundedHours} {hourUnit}</td>
 
                                 {props.deleteHandler &&
-                                    <td>
-                                        <div onClick={handleRowDelete(allData)}>del</div>
+                                    <td className='deleteButtonWrapper'>
+                                        <span className='deleteButton' onClick={handleRowDelete(allData)}>-</span>
                                     </td>
                                 }
                             </tr>
