@@ -1,19 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232 232">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 242">
   <title>iconsTimeTrackerEdit</title>
   <g id="kreis">
-    <circle cx="116" cy="116" r="116" style="fill: #fff"/>
-  </g>
-  <g id="project_edit_Kopie" data-name="project edit Kopie">
-    <polyline id="frame" points="130 150 130 196 48 196 48 77 130 77 130 89" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
-    <g id="lines_Kopie" data-name="lines Kopie">
-      <line x1="62" y1="104" x2="116" y2="104" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
-      <line x1="62" y1="125" x2="105" y2="125" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
-      <line x1="62" y1="146" x2="104" y2="146" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
-      <line x1="62" y1="169" x2="116" y2="169" style="fill: none;stroke: #0060aa;stroke-miterlimit: 10;stroke-width: 7px"/>
-    </g>
+    <circle cx="121" cy="121" r="116" style="fill: #fff"/>
   </g>
   <g id="edit">
-    <path fill="#0060aa" d="M98,160l43-10,77-89-4-6-77,89-22,4-9-8,2-22,80-92-6-4-82,94Z"/>
-    <path fill="#0060aa" d="M131,136l78-90L197,32l-80,92Z"/>
+    <path d="M216,54,113,158,76,168l10-37L189,27a116,116,0,1,0,27,27ZM106,149,210,46,199,35,95,138Z" style="fill: #0086ed"/>
+  </g>
+  <g id="kreis-2" data-name="kreis">
+    <circle cx="121" cy="121" r="116" style="fill: none;stroke: #fff;stroke-miterlimit: 10;stroke-width: 10px"/>
   </g>
 </svg>
