@@ -14,7 +14,10 @@ module.exports = (env, options) => {
                         loader: 'babel-loader',
                         options: {
                             presets: ['env', 'react', 'stage-0'],
-                            plugins: ["transform-class-properties"]
+                            plugins: [
+                                "transform-class-properties",
+                                "transform-runtime"
+                            ]
                         }
                     }],                
                 },

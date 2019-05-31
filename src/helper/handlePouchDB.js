@@ -158,14 +158,14 @@ const handlePouchDB = {
         });
     },
 
-    getDataOrNull(id, cb) {
+    getDataOrNull(id) {
         this.db.get(id, (err, response) => {
-            const returnValue = err ? null : response;
-            cb(returnValue);
+            return err 
+                ? null 
+                : response;
         });
     }
 }
-
 
 module.exports = handlePouchDB;
 
