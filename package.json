@@ -30,8 +30,10 @@
   "scripts": {
     "build": "rm -rf build && webpack --config webpack.config.electron.js --mode production",
     "web": "rm -rf build && webpack-dev-server --config webpack.config.web.js --mode development --hot --inline",
-    "//": "IMPORTANT! make sure to ignore the target directory when packing!",
-    "packageMac": "electron-packager ./ --overwrite --platform=darwin --arch=x64 --icon=assets/timeTracker.icns --prune=true --out=bin",
+    "//": "@TODO Linux 1024x1024.png, Win ico, Win works only with installed wine",
+    "packageMac": "electron-packager ./ TimeTracker --overwrite --platform=darwin --arch=x64 --icon=assets/timeTracker.icns --prune=true --out=bin",
+    "packageLinux": "electron-packager ./ TimeTracker --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/timeTracker.icns --prune=true --out=bin",
+    "packageWin": "electron-packager ./ --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/timeTracker.icns --prune=true --out=bin --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"TimeTracker\"",
     "electronDebug": "npm run build && electron . debug",
     "electron": "npm run build && electron .",
     "bin": "npm run build && npm run packageMac"
