@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.config.base');
 
@@ -11,13 +10,9 @@ module.exports = (env, options) => {
             publicPath: 'http://localhost:4080/build',
             filename: 'bundle.js'
         },
-        plugins: [
-            new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': '"web"'
-                }
-            })
-        ],
+        optimization: {
+            nodeEnv: 'web'
+        },
         node: {
             fs: 'empty'
         },
