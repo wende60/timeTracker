@@ -99,6 +99,18 @@ class Home extends Component {
         });
     }
 
+    customerClickHandler = () => {
+        this.state.customer && this.setState({
+            view: 'main',
+            error: false,
+            customerId: this.state.customerId,
+            projectId: false,
+            customer: this.state.customer,
+            project: null,
+            projects: this.state.projects
+        });
+    };
+
     storeState = () => {
         const currentState = {
             _id: 'storedAppState',
@@ -134,7 +146,6 @@ class Home extends Component {
     }
 
     render() {
-
         const timeActiveClass = this.state.customerId && this.state.projectId ? 'isActive' : 'inActive';
         const editActiveClass = this.state.customerId ? 'isActive' : 'inActive';
         const classes = {
@@ -152,6 +163,7 @@ class Home extends Component {
                     </div>
                     <div>
                         <Selections
+                            customerClick={this.customerClickHandler}
                             customerName={this.state.customer ? this.state.customer.name : ''}
                             projectName={this.state.project ? this.state.project.name : ''} />
                     </div>

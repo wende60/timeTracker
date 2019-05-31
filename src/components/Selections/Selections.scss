@@ -27,5 +27,8 @@
                 opacity: 1;
             }
         }
+        &.isActive {
+            cursor: pointer;
+        }
     }
 }
