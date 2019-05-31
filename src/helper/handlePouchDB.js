@@ -159,7 +159,7 @@ const handlePouchDB = {
     },
 
     getDataOrNull(id) {
-        this.db.get(id, (err, response) => {
+        return this.db.get(id, (err, response) => {
             return err 
                 ? null 
                 : response;

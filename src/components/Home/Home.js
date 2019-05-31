@@ -49,13 +49,7 @@ class Home extends Component {
     }
 
     getStoredState = async() => {
-
-        console.info("xxxxxxx")
-
         const response = await pouchDB.getDataOrNull('storedAppState');
-
-
-
         const doc = response || {};
         const { stateData: { customers = null } = false } = doc;
         if (customers) {
