@@ -6,15 +6,13 @@ module.exports = (env, options) => {
 
     return merge.smart(webpackConfig, {
         output: {
-            path: __dirname + '/build',
-            publicPath: './build',
+            path: __dirname + '/build/',
+            publicPath: './build/',
             filename: 'bundle.js'
         },
-
         optimization: {
             nodeEnv: 'electron'
         },
-
         target: 'electron-main'
     });
 };

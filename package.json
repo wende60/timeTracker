@@ -22,7 +22,6 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1",
@@ -30,12 +29,12 @@
   },
   "scripts": {
     "build": "rm -rf build && webpack --config webpack.config.electron.js --mode production",
-    "web": "webpack-dev-server --config webpack.config.web.js --mode development --hot --inline",
+    "web": "rm -rf build && webpack-dev-server --config webpack.config.web.js --mode development --hot --inline",
     "//": "IMPORTANT! make sure to ignore the target directory when packing!",
     "packageMac": "electron-packager ./ --overwrite --platform=darwin --arch=x64 --icon=assets/timeTracker.icns --prune=true --out=bin",
-    "electronDebug": "npm run build && electron . debug", 
-    "electron": "npm run build && electron .",    
-    "bin": "npm run build && npm run packageMac"    
+    "electronDebug": "npm run build && electron . debug",
+    "electron": "npm run build && electron .",
+    "bin": "npm run build && npm run packageMac"
   },
   "dependencies": {
     "pouchdb-browser": "^7.0.0",

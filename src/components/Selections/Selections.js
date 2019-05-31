@@ -25,4 +25,3 @@ Selections.propTypes = {
 };
 
 export default Selections;
-

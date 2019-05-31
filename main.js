@@ -4,9 +4,8 @@ const electron = require('electron');
 const { app, BrowserWindow, crashReporter, ipcMain, dialog } = electron;
 const fs = require('fs');
 
-
 ipcMain.on('synchronous-message', (event, arg) => {
-  console.info('ipcMain', arg);
+  // console.info('ipcMain', arg);
   saveFile(arg.defaultPath, arg.fileContent);
   event.returnValue = 'done'
 });

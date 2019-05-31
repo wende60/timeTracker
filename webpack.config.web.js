@@ -6,8 +6,8 @@ module.exports = (env, options) => {
 
     return merge.smart(webpackConfig, {
         output: {
-            path: __dirname + '/build',
-            publicPath: 'http://localhost:4080/build',
+            path: __dirname + '/build/',
+            publicPath: 'http://localhost:4000/build/',
             filename: 'bundle.js'
         },
         optimization: {
@@ -18,6 +18,7 @@ module.exports = (env, options) => {
         },
         target: 'web',
         devServer: {
+            publicPath: '/build/',
             inline: true,
             port: 4000
         }    
