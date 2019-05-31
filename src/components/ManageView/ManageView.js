@@ -71,22 +71,29 @@ class ManageView extends Component {
         return projectTimes.map((projectData, index) => {
             return (
                 <div key={index} className='projectBlockWrapper'>
-                    {projectData.times.length ?
-                        <div>
-                            <h3>
-                                <div>Projekt: </div>
-                                {projectData.projectName}
-                            </h3>
-                            <TimesList
-                                times={projectData.times}
-                                updateHandler={this.updateTimeRecord}
-                                deleteHandler={this.deleteTimeRecord}
-                                isRecording={false}
-                                updated={this.state.updated} />
-                            <div className='printButtonWrapper'>
-                                <div className='printButton' onClick={exportTimes(this.props.customer, projectData)}>Export</div>
+                    {projectData.times.length 
+                        ?   <div>
+                                <h3>
+                                    <div>Projekt: </div>
+                                    {projectData.projectName}
+                                </h3>
+                                <TimesList
+                                    times={projectData.times}
+                                    updateHandler={this.updateTimeRecord}
+                                    deleteHandler={this.deleteTimeRecord}
+                                    isRecording={false}
+                                    updated={this.state.updated} />
+                                <div className='printButtonWrapper'>
+                                    <div className='printButton' onClick={exportTimes(this.props.customer, projectData)}>Export</div>
+                                </div>
+                            </div> 
+                        :   <div>
+                                <h3>
+                                    <div>Projekt: </div>
+                                    {projectData.projectName}
+                                </h3>
+                                <div className='messageHeader'>In diesem Zeitraum sind keine Zeiten verfügbar</div>
                             </div>
-                        </div> : <div className='messageHeader'>In diesem Zeitraum sind keine Zeiten verfügbar</div>
                     }
                 </div>
             )

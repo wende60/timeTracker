@@ -1,5 +1,5 @@
 import './Home.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import pouchDB from '../../helper/handlePouchDB.js';
 import Selections from '../Selections/Selections.js';
 import MainView from '../MainView/MainView.js';
@@ -37,7 +37,7 @@ class Home extends Component {
         this.state.customers = null;
 
         pouchDB.init();
-        pouchDB.getDataOrNull('storedAppState', this.getStoredState);
+        this.getStoredState();
     }
 
     componentWillMount() {
@@ -48,7 +48,8 @@ class Home extends Component {
         this.storeState();
     }
 
-    getStoredState = response => {
+    getStoredState = async() => {
+        const response = await pouchDB.getDataOrNull('storedAppState');
         const doc = response || {};
         const { stateData: { customers = null } = false } = doc;
         if (customers) {
@@ -56,7 +57,7 @@ class Home extends Component {
         } else {
             pouchDB.findDocs(this.setStateCustomers, queryCustomers());
         }
-    }
+    };
 
     setStateCustomers = response => {
         const customers = response.docs || null;
