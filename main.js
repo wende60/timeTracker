@@ -46,14 +46,20 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 700, height: 700});
+  mainWindow = new BrowserWindow({
+    width: 700, 
+    height: 700,
+    webPreferences: {
+      nodeIntegration: true
+    }    
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  // Only open dev tools in dev environment
-  if (process.env.NODE_ENV === 'web') {
-    // Open the DevTools.
+  // Open the DevTools.
+  const isDebug = typeof process.argv.find(item => item === 'debug') !== 'undefined';
+  if (isDebug) {
     mainWindow.openDevTools();
   }
 

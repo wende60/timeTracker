@@ -2,7 +2,7 @@
 import pouchdb from 'pouchdb-browser'
 import pouchdbFind from 'pouchdb-find';
 pouchdb.plugin(pouchdbFind);
-pouchdb.debug.disable('pouchdb:find');
+//pouchdb.debug.disable('pouchdb:find');
 
 export const DB_NAME = 'timeTrackerStore';
 
