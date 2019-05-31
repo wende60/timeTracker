@@ -20,12 +20,10 @@
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
     "raw-loader": "^2.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
     "sass-loader": "^7.1.0",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.4.1",
+    "webpack-dev-server": "^3.5.0",
     "webpack-merge": "^4.2.1"
   },
   "scripts": {
@@ -40,6 +38,8 @@
     "bin": "npm run build && npm run packageMac"
   },
   "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "pouchdb-browser": "^7.0.0",
     "pouchdb-find": "^7.0.0"
   }
