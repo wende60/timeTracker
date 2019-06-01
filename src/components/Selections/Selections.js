@@ -1,6 +1,6 @@
+import './Selections.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Selections.scss';
 
 const Selections = props => {
     const customerClass = props.customerName ? 'isActive' : '';

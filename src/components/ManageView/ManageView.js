@@ -20,14 +20,14 @@ class ManageView extends Component {
         }
 
         pouchDB.init();
-        pouchDB.findDocs(this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
+        this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
     }
 
     componentWillMount() {
         this.setState(this.state);
     }
 
-    updateTimeRecord = (id, start, end, customerId, customerName, projectId, projectName) => {
+    updateTimeRecord = async(id, start, end, customerId, customerName, projectId, projectName) => {
         const timeRecord = createTimeRecord(
             id,
             start,
@@ -39,27 +39,31 @@ class ManageView extends Component {
         );
 
         this.setState({ updated: id });
-        pouchDB.updateAndFind(timeRecord, this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
+        await pouchDB.updateItem(timeRecord);
+        this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
     }
 
-    deleteTimeRecord = rowData => {
+    deleteTimeRecord = async(rowData) => {
         const timeRecordString = rowData.formattedStartDate + ' ' + rowData.formattedStartTime;
         if (confirm('Echt jetzt, Zeiterfassung vom ' + timeRecordString + ' löschen?')) {
             this.setState({ updated: 0 });
-            pouchDB.deleteDoc(rowData._id, this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
+            await pouchDB.deleteItemById(rowData._id);
+            this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
         }
     }
 
-    displayCustomerTimes = response => {
+    displayCustomerTimes = async(query) => {
+        const response = await pouchDB.findItems(query);
+        const timeList = response ? response.docs : [];
+
         let projectTimes = this.props.projects.map(project => {
             return {
                 projectId: project._id,
                 projectName: project.name,
-                times: response.docs.filter(doc => {
-                    return doc.projectId === project._id;
-                })
+                times: timeList.filter(doc => doc.projectId === project._id)
             }
         });
+
         if (!projectTimes.length) {
             projectTimes = null;
         };
@@ -101,17 +105,16 @@ class ManageView extends Component {
     }
 
     timesFilterChange = (filterTimeStart, filterTimeEnd) => {
-        if (filterTimeStart && filterTimeEnd) {
-            pouchDB.findDocs(this.displayCustomerTimes,
-                queryTimesCustomerFiltered(this.props.customerId, filterTimeStart, filterTimeEnd));
-        } else {
-            pouchDB.findDocs(this.displayCustomerTimes, queryTimesCustomer(this.props.customerId));
-        }
+        const query = filterTimeStart && filterTimeEnd
+            ? queryTimesCustomerFiltered(this.props.customerId, filterTimeStart, filterTimeEnd)
+            : queryTimesCustomer(this.props.customerId);
+        this.displayCustomerTimes(query);
     }
 
     createCustomerMessageHeader = () => {
-        const header = this.state.initialCall ?
-                        <div className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</div> : null;
+        const header = this.state.initialCall 
+            ? <div className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</div> 
+            : null;
         return header;
     }
 

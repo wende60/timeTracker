@@ -1,21 +1,22 @@
 import './MainView.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import pouchDB from '../../helper/handlePouchDB.js';
 import ItemForm from '../ItemForm/ItemForm.js';
 
 import {
     createCustomer,
     createProject,
-    queryCustomers,
-    queryProjects,
     queryAllProjectData,
     queryAllCustomerData
 } from '../../helper/customersHelper.js';
 
-class MainView extends Component {
+class MainView extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = { error: false };
+        this.state = { 
+            error: false 
+        };
 
         pouchDB.init();
     }
@@ -28,49 +29,47 @@ class MainView extends Component {
         this.setState({ error: false });
     }
 
-    createNewCustomer = addString => {
+    createNewCustomer = async(addString) => {
         const newCustomer = createCustomer(addString, this.props.customers);
         if (newCustomer) {
-            pouchDB.addDocToList(newCustomer, this.props.setStateCustomers, queryCustomers());
+            const response = await pouchDB.addItem(newCustomer);
+            this.props.setStateCustomers();
         } else {
             this.setState({ error: 'Diesen Kunden gibt es schon!' });
         }
     }
 
-    createNewProject = addString => {
+    createNewProject = async(addString) => {
         const newProject = createProject(addString, this.props.customerId, this.props.projects);
         if (newProject) {
-            pouchDB.addDocToList(newProject, this.props.setStateProjects, queryProjects(this.props.customerId));
+            const response = await pouchDB.addItem(newProject);
+            this.props.setStateProjects();
         } else {
             this.setState({ error: 'Dieses Projekt gibt es schon!' });
         }
     }
 
     selectCustomer = e => {
-        pouchDB.getData(e.currentTarget.dataset.item, this.props.setStateCustomer);
+        this.props.setStateCustomer(e.currentTarget.dataset.item);
     }
 
     selectProject = e => {
-        pouchDB.getData(e.currentTarget.dataset.item, this.props.setStateProject);
+        this.props.setStateProject(e.currentTarget.dataset.item);
     }
 
-    deleteCustomer = e => {
-        pouchDB.getData(e.currentTarget.dataset.item, this.executeDeleteCustomer)
-    }
-
-    executeDeleteCustomer = response => {
-        if (confirm('Echt jetzt, Kunde ' + response.name + ' mit allen Projekten und Zeiten löschen?')) {
-            pouchDB.deleteDocs(queryAllCustomerData(response._id), this.props.setStateCustomers, queryCustomers());
+    deleteCustomer = async(e) => {
+        const response = await pouchDB.findItemById(e.currentTarget.dataset.item);
+        if (response && confirm('Echt jetzt, Kunde ' + response.name + ' mit allen Projekten und Zeiten löschen?')) {
+            await pouchDB.deleteItems(queryAllCustomerData(response._id));
+            this.props.setStateCustomers();
         }
     }
 
-    deleteProject = e => {
-        pouchDB.getData(e.currentTarget.dataset.item, this.executeDeleteProject)
-    }
-
-    executeDeleteProject = response => {
-        if (confirm('Echt jetzt, Projekt ' + response.name + ' mit allen Zeiten löschen?')) {
-            pouchDB.deleteDocs(queryAllProjectData(response._id), this.props.setStateProjects, queryProjects(this.props.customerId));
+    deleteProject = async(e) => {
+        const response = await pouchDB.findItemById(e.currentTarget.dataset.item);
+        if (response && confirm('Echt jetzt, Projekt ' + response.name + ' mit allen Zeiten löschen?')) {
+            await pouchDB.deleteItems(queryAllProjectData(response._id));
+            this.props.setStateProjects();
         }
     }
 
@@ -105,6 +104,19 @@ class MainView extends Component {
             </div>
         );
     }
+};
+
+MainView.propTypes = {
+    customers: PropTypes.array,
+    customerId: PropTypes.string,
+    projectId: PropTypes.string,
+    customer: PropTypes.object,
+    projects: PropTypes.array,
+    project: PropTypes.object,
+    setStateCustomers: PropTypes.func.isRequired,
+    setStateProjects: PropTypes.func.isRequired,
+    setStateCustomer: PropTypes.func.isRequired,
+    setStateProject: PropTypes.func.isRequired
 };
 
 export default MainView;
