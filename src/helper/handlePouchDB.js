@@ -73,8 +73,8 @@ const handlePouchDB = {
     },
 
     async replaceItem(obj) {
+        const replaceItem = await this.findItemById(obj._id);
         try {
-            const replaceItem = await this.db.get(obj._id);
             if (replaceItem) {
                 await this.db.remove(replaceItem);
             } 
@@ -87,8 +87,8 @@ const handlePouchDB = {
     },
 
     async updateItem(obj) {
+        const updateItem = await this.findItemById(obj._id);
         try {
-            const updateItem = await this.db.get(obj._id);
             if (updateItem) {
                 obj._rev = updateItem._rev;
             } 

@@ -55,10 +55,6 @@ class Home extends PureComponent {
         if (stateData) {
             this.setState(stateData)
         } else {
-            await pouchDB.addItem({ 
-                _id: 'storedAppState',
-                stateData: null 
-            });
             this.setStateCustomers();
         }
     };
