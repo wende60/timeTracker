@@ -44,7 +44,11 @@ const handlePouchDB = {
     },
 
     async deleteItemById(id) {
-        const itemData = await this.db.get(id);
+        const itemData = await this.findItemById(id);
+        if (!itemData) {
+            return null;
+        }
+
         try {
             const response = await this.db.remove(itemData);
             return response;
@@ -55,15 +59,14 @@ const handlePouchDB = {
     },
 
     async deleteItems(deleteQuery) {
-        const { fields, findParams } = deleteQuery;
+        const deleteItems = await this.findItems(deleteQuery);        
         try {
-            await this.db.createIndex({ index: { fields }});
-            const response = await this.db.find(findParams);
-            if (response) {
-                response.docs.forEach(doc => {
+            let response = null;
+            if (deleteItems) {
+                deleteItems.docs.forEach(doc => {
                     doc._deleted = true;
                 });
-                this.db.bulkDocs(response.docs);
+                response = this.db.bulkDocs(deleteItems.docs);
             }
             return response;
         } catch(error) {
