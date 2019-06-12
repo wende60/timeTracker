@@ -15,10 +15,13 @@ export const createCompareString = string => {
  */
 export const queryCustomers = () => ({
     findParams: {
-        selector: { type: 'customer', compare: { $gt: null }},
+        selector: { 
+            compare: { $gt: null },
+            type: 'customer'
+        },
         sort: [{"compare": "asc"}]
     },
-    fields: ['compare', 'type', '_id'],
+    fields: ['compare', 'type']
 });
 
 export const queryProjects = customerId => ({

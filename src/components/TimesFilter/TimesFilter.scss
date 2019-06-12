@@ -18,5 +18,14 @@
         font-size: 15px;
         padding: 6px;
         color: #ffffff;
+        outline: none;
+
+        &.selectActive {
+            opacity: 1;
+        }
+
+        &.selectDisabled {
+            opacity: 0.5;
+        }        
     }
 }

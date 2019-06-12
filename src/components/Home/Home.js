@@ -1,5 +1,5 @@
 import './Home.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import pouchDB from '../../helper/handlePouchDB.js';
 import Selections from '../Selections/Selections.js';
 import MainView from '../MainView/MainView.js';
@@ -9,7 +9,6 @@ import iconOverview from '../../assets/iconsTimeTrackerOverview.svg';
 import iconRecord from '../../assets/iconsTimeTrackerRecord.svg';
 import iconEdit from '../../assets/iconsTimeTrackerEdit.svg';
 
-
 import {
     queryCustomers,
     queryProjects
@@ -18,17 +17,16 @@ import {
 export const DEFAULT_STATE = {
     view: 'main',
     error: false,
-    customerId: false,
-    projectId: false,
+    customerId: null,
+    projectId: null,
     customer: null,
     project: null,
     projects: null
 }
 
-class Home extends Component {
-
-    constructor(props) {
-        super(props);
+class Home extends PureComponent {
+    constructor() {
+        super();
 
         // default state
         this.state = Object.assign({}, DEFAULT_STATE);
@@ -40,7 +38,7 @@ class Home extends Component {
         this.getStoredState();
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setState(this.state);
     }
 
@@ -49,38 +47,45 @@ class Home extends Component {
     }
 
     getStoredState = async() => {
-        const response = await pouchDB.getDataOrNull('storedAppState');
-        const doc = response || {};
-        const { stateData: { customers = null } = false } = doc;
-        if (customers) {
-            this.setState(doc.stateData)
+        const response = await pouchDB.findItemById('storedAppState');
+        const stateData = response && response.stateData
+            ? response.stateData
+            : null;
+
+        if (stateData) {
+            this.setState(stateData)
         } else {
-            pouchDB.findDocs(this.setStateCustomers, queryCustomers());
+            this.setStateCustomers();
         }
     };
 
-    setStateCustomers = response => {
-        const customers = response.docs || null;
+    setStateCustomers = async() => {
+        const response = await pouchDB.findItems(queryCustomers());
+        const customers = response ? response.docs : null;
         this.setState({
             customers,
             error: false
         });
     }
 
-    setStateCustomer = response => {
-        const customerId = response._id;
-        const customer = response;
+    setStateCustomer = async(item) => {
+        const customer = await pouchDB.findItemById(item);
+        const customerId = customer ? customer._id : null;
         this.setState({
             customerId,
             customer,
             error: false
         });
-        pouchDB.findDocs(this.setStateProjects, queryProjects(customerId));
+        this.setStateProjects();
     }
 
-    setStateProjects = response => {
-        const projects = response.docs || null;
-        const project = false;
+    setStateProjects = async() => {
+        if (!this.state.customerId) {
+            return
+        }
+        const response = await pouchDB.findItems(queryProjects(this.state.customerId));
+        const projects = response ? response.docs : null;
+        const project = null;
         this.setState({
             projects,
             project,
@@ -88,9 +93,9 @@ class Home extends Component {
         });
     }
 
-    setStateProject = response => {
-        const projectId = response._id;
-        const project = response;
+    setStateProject = async(item) => {
+        const project = await pouchDB.findItemById(item);
+        const projectId = project ? project._id : null;
         const view = 'time';
         this.setState({
             projectId,
@@ -105,7 +110,7 @@ class Home extends Component {
             view: 'main',
             error: false,
             customerId: this.state.customerId,
-            projectId: false,
+            projectId: null,
             customer: this.state.customer,
             project: null,
             projects: this.state.projects
@@ -117,7 +122,7 @@ class Home extends Component {
             _id: 'storedAppState',
             stateData: this.state
         }
-        pouchDB.replaceDoc(currentState);
+        pouchDB.replaceItem(currentState);
     }
 
     changeView = view => e => {

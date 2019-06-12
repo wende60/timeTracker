@@ -17,16 +17,15 @@ class TimeView extends Component {
         }
 
         pouchDB.init();
-        pouchDB.findDocs(this.displayGetTimes, queryTimesLimited(this.props.projectId));
+        this.displayGetTimes();
     }
 
     componentWillMount() {
         this.setState(this.state);
     }
 
-    createNewTimeRecord = (mode, useCallback = true) => {
+    createNewTimeRecord = async(mode, useCallback = true) => {
         const eventTime = new Date().getTime();
-        const callback = useCallback ? this.displayGetTimes : null;
         const timeRecord = mode === 'start' ?
             createTimeRecord(
                 eventTime,
@@ -40,11 +39,13 @@ class TimeView extends Component {
 
         if (mode === 'start') {
             this.setState({ record: timeRecord });
-            pouchDB.addDocToList(timeRecord, callback, queryTimesLimited(this.props.projectId));
+            await pouchDB.addItem(timeRecord);
         } else {
             this.setState({ record: null });
-            pouchDB.updateAndFind(timeRecord, callback, queryTimesLimited(this.props.projectId));
+            await pouchDB.updateItem(timeRecord);
         }
+
+        useCallback && this.displayGetTimes();
     }
 
     updateTimeRecord = (id, start, end, customerId, customerName, projectId, projectName) => {
@@ -58,13 +59,16 @@ class TimeView extends Component {
             projectName
         );
 
-        pouchDB.updateAndFind(timeRecord, this.displayGetTimes, queryTimesLimited(this.props.projectId));
+        pouchDB.updateItem(timeRecord);
+        this.displayGetTimes();
     }
 
-    displayGetTimes = response => {
-
-        const docs = response.docs.length ? response.docs : null;
-        this.setState({ times: docs });
+    displayGetTimes = async() => {
+        const response = await pouchDB.findItems(queryTimesLimited(this.props.projectId));
+        const times = response && response.docs.length > 0
+            ? response.docs 
+            : null;
+        this.setState({ times });
     }
 
     render() {
