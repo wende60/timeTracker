@@ -1,11 +1,12 @@
 import './TimesFilter.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import timesHelper from '../../helper/timesHelper.js';
 
 // todo, set locale here
 timesHelper.init();
 
-class TimesFilter extends Component {
+class TimesFilter extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -98,6 +99,10 @@ class TimesFilter extends Component {
             </div>
         )
     };
+};
+
+TimesFilter.propTypes = {
+    timesFilterChange: PropTypes.func.isRequired
 };
 
 export default TimesFilter;
