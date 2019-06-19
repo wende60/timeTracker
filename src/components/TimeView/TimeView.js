@@ -87,7 +87,7 @@ class TimeView extends PureComponent {
                                 times={this.state.times}
                                 updateHandler={this.updateTimeRecord}
                                 isRecording={this.state.record}
-                                updated={0} />
+                                updated={'0'} />
                         )}
                     </LocalizationContext.Consumer>
                 }

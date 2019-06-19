@@ -167,7 +167,7 @@ TimesList.propTypes = {
     updateHandler: PropTypes.func.isRequired,
     deleteHandler: PropTypes.func,
     isRecording: PropTypes.object,
-    updated: PropTypes.number.isRequired
+    updated: PropTypes.string.isRequired
 };
 
 export default TimesList;

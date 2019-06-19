@@ -19,7 +19,7 @@ class ManageView extends PureComponent {
         this.state = {
             projectTimes: null,
             initialCall: false,
-            updated: 0
+            updated: '0'
         }
 
         pouchDB.init();
@@ -98,7 +98,9 @@ class ManageView extends PureComponent {
                                 </LocalizationContext.Consumer>
 
                                 <div className='printButtonWrapper'>
-                                    <div className='printButton' onClick={exportTimes(this.props.customer, projectData)}>
+                                    <div
+                                        className='printButton'
+                                        onClick={exportTimes(this.props.customer, projectData, this.context)}>
                                         {translate(this.context, 'export')}
                                     </div>
                                 </div>

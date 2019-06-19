@@ -4,43 +4,39 @@ import './styles/global.scss';
 import Home from './components/Home/Home.js';
 import LocalizationContext from './context/LocalizationContext';
 
+// dynamic import fails in electron :(
+import phrasesDe from './config/phrasesDe.js';
+import phrasesEn from './config/phrasesEn.js';
+
 class App extends PureComponent {
     constructor() {
-		super();
-		this.state = {
-			dict: {}
-		}
-	}
+        super();
+        this.state = {
+            dict: {}
+        }
+    }
 
-	loadPhrases = async(language) => {
-		let phrases = {};
-		try {
-			switch (language) {
-				case 'de':
-					phrases = await import('./config/phrasesDe.js');
-					this.setState({ dict: phrases.default });
-					break;
-				default:
-					phrases = await import('./config/phrasesEn.js');
-					this.setState({ dict: phrases.default });
-			}
-		} catch(error) {
-            console.info('LOAD_PHRASES_ERROR', error);
-		}
-	};
+    setPhrases = language => {
+        switch (language) {
+            case 'de':
+                this.setState({ dict: phrasesDe });
+                break;
+            default:
+                this.setState({ dict: phrasesEn });
+        }
+    };
 
-	changeLanguageHandler = language => {
-		console.info("LANGUAGE", language)
-		this.loadPhrases(language);
-	};
+    changeLanguageHandler = language => {
+        this.setPhrases(language);
+    };
 
-	render() {
-		return (
-			<LocalizationContext.Provider value={this.state.dict}>
-            	<Home changeLanguage={this.changeLanguageHandler} />
-			</LocalizationContext.Provider>
+    render() {
+        return (
+            <LocalizationContext.Provider value={this.state.dict}>
+                <Home changeLanguage={this.changeLanguageHandler} />
+            </LocalizationContext.Provider>
         );
-	}
+    }
 };
 
 ReactDom.render(<App/>, document.getElementById('react-root'));
