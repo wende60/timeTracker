@@ -5,6 +5,7 @@ const PHRASES = {
     errorProjectAvailable: 'Check it babe, this project is already available!',
     confirmDeleteCustomer: 'Do you know what you are doing dear? Delete customer ${customer} and all depending projects and times?',
     confirmDeleteProject: 'Oh-oh, sure you want to delete project ${project} with all it\'s times?',
+    confirmDeleteTime: 'Here we go, delete time record ${time} for ever?',
     errorEntryCustomer: 'Please add customer!',
     errorEntryProject: 'Please add project!',
     addCustomer: 'Add customer',
@@ -15,6 +16,17 @@ const PHRASES = {
     placeholderProject: 'Project',
     customer: 'Customer',
     project: 'Project',
+    startDate: 'Startdate',
+    endDate: 'Enddate',
+    startTime: 'Starttime',
+    endTime: 'Endtime',
+    duration: 'Duration',
+    allYears: 'All years',
+    allMonth: 'All months',
+    filterTimes: 'Filter time records',
+    errorFilter: 'No time records available for this period',
+    export: 'Export time records as csv file',
+    selectLanguage: 'Select language',
 }
 
 export default PHRASES;

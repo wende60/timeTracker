@@ -1,5 +1,7 @@
 import './TimesList.scss';
-import React, { PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import translate from '../../helper/translate.js';
 import timesHelper from '../../helper/timesHelper.js';
 
 // todo, set locale here
@@ -89,11 +91,11 @@ const TimesList = props => {
             <table>
                 <thead>
                     <tr>
-                        <th>Startdatum</th>
-                        <th>Startzeit</th>
-                        <th>Enddatum</th>
-                        <th>Endzeit</th>
-                        <th>Dauer</th>
+                        <th>{translate(props.dict, 'startDate')}</th>
+                        <th>{translate(props.dict, 'startTime')}</th>
+                        <th>{translate(props.dict, 'endDate')}</th>
+                        <th>{translate(props.dict, 'endTime')}</th>
+                        <th>{translate(props.dict, 'duration')}</th>
                         {props.deleteHandler &&
                             <th></th>
                         }
@@ -157,6 +159,15 @@ const TimesList = props => {
             </table>
         </div>
     );
+};
+
+TimesList.propTypes = {
+    dict: PropTypes.object.isRequired,
+    times: PropTypes.array.isRequired,
+    updateHandler: PropTypes.func.isRequired,
+    deleteHandler: PropTypes.func,
+    isRecording: PropTypes.object,
+    updated: PropTypes.number.isRequired
 };
 
 export default TimesList;

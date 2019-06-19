@@ -1,6 +1,7 @@
+@import '../../styles/extensions.scss';
+
 .userWrapper {
     min-height: 100%;
-    padding: 0 5% 0 5%;
 
     h2 {
         font-size: 18px;
@@ -16,4 +17,6 @@
         color: #ffffff;
         outline: none;
     }
+
+    @extend %moveInAnimation;
 }

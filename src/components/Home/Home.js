@@ -12,6 +12,8 @@ import UserView from '../UserView/UserView.js';
 import iconOverview from '../../assets/iconsTimeTrackerOverview.svg';
 import iconRecord from '../../assets/iconsTimeTrackerRecord.svg';
 import iconEdit from '../../assets/iconsTimeTrackerEdit.svg';
+import iconUser from '../../assets/iconsTimeTrackerUser.svg';
+
 import {
     queryCustomers,
     queryProjects
@@ -219,7 +221,7 @@ class Home extends PureComponent {
                     <div>
                         <div className={classes.user.join(' ')}
                             onClick={this.changeView('user')} title='User settings'
-                            dangerouslySetInnerHTML={{__html:iconEdit}}></div>
+                            dangerouslySetInnerHTML={{__html:iconUser}}></div>
                     </div>
                 </div>
 
