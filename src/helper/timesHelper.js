@@ -1,4 +1,3 @@
-
 const timesHelper = {
     config: {
         formatRegEx: /(\.|\-|\/|\||\:)/,
@@ -151,4 +150,3 @@ const timesHelper = {
 };
 
 module.exports = timesHelper;
-

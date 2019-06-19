@@ -15,7 +15,7 @@ export const createCompareString = string => {
  */
 export const queryCustomers = () => ({
     findParams: {
-        selector: { 
+        selector: {
             compare: { $gt: null },
             type: 'customer'
         },
@@ -129,7 +129,7 @@ export const createTimeRecord = (id, start, end = 0, customerId, customerName, p
  */
 export const createCustomer = (addCustomer, allCustomers) => {
     const compare = createCompareString(addCustomer);
-    const isAvailable = allCustomers.find(customer => {
+    const isAvailable = allCustomers && allCustomers.find(customer => {
         return compare === customer.compare;
     });
 
@@ -153,7 +153,7 @@ export const createCustomer = (addCustomer, allCustomers) => {
  */
 export const createProject = (addProject, customerId, allProjects) => {
     const compare = createCompareString(addProject);
-    const isAvailable = allProjects.find(project => {
+    const isAvailable = allProjects && allProjects.find(project => {
         return compare === project.compare;
     });
 

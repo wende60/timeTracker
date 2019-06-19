@@ -1,39 +1,39 @@
 import './ItemForm.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import LocalizationContext from '../../context/LocalizationContext';
+import translate from '../../helper/translate.js';
 import ItemList from '../ItemList/ItemList.js';
 
-class ItemForm extends Component {
-
+class ItemForm extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             error: false,
             displayInput: false
         }
-
-        this.errorMessage = {
-            customer: 'Bitte Kunden eintragen!',
-            project: 'Bitte Projekt eintragen!'
-        }
-
-        this.buttonText = {
-            customer: 'Kunde anlegen',
-            project: 'Projekt anlegen'
-        }
-
-        this.headerText = {
-            customer: 'Bitte Kunden wählen',
-            project: 'Bitte Projekt wählen'
-        }
-
-        this.placeholderText = {
-            customer: 'Kunde',
-            project: 'Projekt'
-        }
     }
 
-    componentWillMount() {
-        this.setState(this.state);
+    getString(type) {
+        const keys = {
+            error: {
+                customer: 'errorEntryCustomer',
+                project: 'errorEntryProject'
+            },
+            button: {
+                customer: 'addCustomer',
+                project: 'addProject'
+            },
+            header: {
+                customer: 'headerCustomer',
+                project: 'headerProject'
+            },
+            placeholder: {
+                customer: 'placeholderCustomer',
+                project: 'placeholderProject'
+            }
+        }
+        return translate(this.context, keys[type][this.props.mode]);
     }
 
     sender = e => {
@@ -61,7 +61,7 @@ class ItemForm extends Component {
             <div className='itemFormWrapper'>
 
                 <h2>
-                    {this.headerText[this.props.mode]}
+                    {this.getString('header')}
                     <span onClick={this.displayInput} className='addButton'>+</span>
                 </h2>
 
@@ -76,18 +76,28 @@ class ItemForm extends Component {
                     <form onSubmit={this.sender}>
                         <input
                             type="text"
-                            placeholder={this.placeholderText[this.props.mode]}
+                            placeholder={this.getString('placeholder')}
                             ref="inputElement"
                             onFocus={this.resetError} />
-                        <button>{this.buttonText[this.props.mode]}</button>
+                        <button>{this.getString('button')}</button>
                         {this.state.error &&
-                            <p className='inputErrorMessage'>{this.errorMessage[this.props.mode]}</p>
+                            <p className='inputErrorMessage'>{this.getString('error')}</p>
                         }
                     </form>
                 }
             </div>
         );
     }
+};
+
+ItemForm.contextType = LocalizationContext;
+
+ItemForm.propTypes = {
+    buttonClick: PropTypes.func.isRequired,
+    selectClick: PropTypes.func.isRequired,
+    deleteClick: PropTypes.func.isRequired,
+    mode: PropTypes.string.isRequired,
+    items: PropTypes.array
 };
 
 export default ItemForm;

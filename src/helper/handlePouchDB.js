@@ -55,11 +55,11 @@ const handlePouchDB = {
         } catch(error) {
             console.info('DELETE_ITEM_BY_ID_ERROR', error);
             return null;
-        }         
+        }
     },
 
     async deleteItems(deleteQuery) {
-        const deleteItems = await this.findItems(deleteQuery);        
+        const deleteItems = await this.findItems(deleteQuery);
         try {
             let response = null;
             if (deleteItems) {
@@ -72,20 +72,6 @@ const handlePouchDB = {
         } catch(error) {
             console.info('FIND_ITEMS_ERROR', error);
             return null;
-        }        
-    },
-
-    async replaceItem(obj) {
-        const replaceItem = await this.findItemById(obj._id);
-        try {
-            if (replaceItem) {
-                await this.db.remove(replaceItem);
-            } 
-            const response = await this.db.put(obj);
-            return response;
-        } catch(error) {
-            console.info('REPLACE_ITEM_ERROR', error);
-            return null;
         }
     },
 
@@ -94,13 +80,14 @@ const handlePouchDB = {
         try {
             if (updateItem) {
                 obj._rev = updateItem._rev;
-            } 
+
+            }
             const response = await this.db.put(obj);
             return response;
         } catch(error) {
             console.info('UPDATE_ITEM_ERROR', error);
             return null;
-        } 
+        }
     },
 
     async findItemById(id) {
