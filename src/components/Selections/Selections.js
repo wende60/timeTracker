@@ -1,5 +1,6 @@
 import './Selections.scss';
 import React from 'react';
+import translate from '../../helper/translate.js';
 import PropTypes from 'prop-types';
 
 const Selections = props => {
@@ -7,11 +8,11 @@ const Selections = props => {
     return (
         <div className='selectionsWrapper'>
             <p onClick={props.customerClick} className={customerClass}>
-                <span>Kunde</span>
+                <span>{translate(props.dict, 'customer')}</span>
                 <span>{props.customerName}</span>
             </p>
             <p>
-                <span>Projekt</span>
+                <span>{translate(props.dict, 'project')}</span>
                 <span>{props.projectName}</span>
             </p>
         </div>

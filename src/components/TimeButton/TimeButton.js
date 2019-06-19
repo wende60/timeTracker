@@ -1,8 +1,8 @@
 import './TimeButton.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-class TimeButton extends Component {
-
+class TimeButton extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -66,6 +66,10 @@ class TimeButton extends Component {
             </div>
         );
     }
+};
+
+TimeButton.propTypes = {
+    buttonClick: PropTypes.func.isRequired
 };
 
 export default TimeButton;

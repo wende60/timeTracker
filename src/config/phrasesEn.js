@@ -13,6 +13,8 @@ const PHRASES = {
     headerProject: 'Please select a project',
     placeholderCustomer: 'Customer',
     placeholderProject: 'Project',
+    customer: 'Customer',
+    project: 'Project',
 }
 
 export default PHRASES;

@@ -1,5 +1,6 @@
 import './TimeView.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import pouchDB from '../../helper/handlePouchDB.js';
 import TimeButton from '../TimeButton/TimeButton.js';
 import TimesList from '../TimesList/TimesList.js';
@@ -8,7 +9,7 @@ import {
     queryTimesLimited
 } from '../../helper/customersHelper.js';
 
-class TimeView extends Component {
+class TimeView extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -66,7 +67,7 @@ class TimeView extends Component {
     displayGetTimes = async() => {
         const response = await pouchDB.findItems(queryTimesLimited(this.props.projectId));
         const times = response && response.docs.length > 0
-            ? response.docs 
+            ? response.docs
             : null;
         this.setState({ times });
     }
@@ -88,6 +89,13 @@ class TimeView extends Component {
             </div>
         );
     }
+};
+
+TimeView.propTypes = {
+    customerId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
+    customer: PropTypes.object.isRequired,
+    project: PropTypes.object.isRequired
 };
 
 export default TimeView;

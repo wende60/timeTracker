@@ -190,10 +190,15 @@ class Home extends PureComponent {
                         <h1>TimeTracker</h1>
                     </div>
                     <div>
-                        <Selections
-                            customerClick={this.customerClickHandler}
-                            customerName={this.state.customer ? this.state.customer.name : ''}
-                            projectName={this.state.project ? this.state.project.name : ''} />
+                        <LocalizationContext.Consumer>
+                            {value => (
+                                <Selections
+                                    dict={value}
+                                    customerClick={this.customerClickHandler}
+                                    customerName={this.state.customer ? this.state.customer.name : ''}
+                                    projectName={this.state.project ? this.state.project.name : ''} />
+                            )}
+                        </LocalizationContext.Consumer>
                     </div>
                 </div>
 
