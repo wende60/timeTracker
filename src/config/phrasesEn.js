@@ -30,7 +30,7 @@ const PHRASES = {
     selectedFormat: 'Select date format',
     dateFormat: 'Dateformat',
     timeFormat24Hours: 'Timeformat 24 hrs: hh:mm',
-    timeFormat12Hours: 'Timeformat 12h hrs: hh:mm AM/PM',
+    timeFormat12Hours: 'Timeformat 12 hrs: hh:mm AM/PM',
 }
 
 export default PHRASES;
