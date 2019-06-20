@@ -4,10 +4,12 @@ timeTracker
 Based on Electron + Webpack + React + Sass + pouchdb.
 Work in progress, not ready yet!
 
-Wording is in German right now as the date and time formatting, localization is planned...
+Different date formattings are planned, so far only dd.mm.yyy hh:mm is available...
 
-UPDATE
-moved to webpack 4
+UPDATES 2019
+- moved to webpack 4
+- remove callbacks with async-await
+- Select between english and german
 
 run 
 - npm install to unstall all npm modules
