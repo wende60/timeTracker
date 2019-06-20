@@ -50,7 +50,7 @@ class ManageView extends PureComponent {
         const timeRecordString = rowData.formattedStartDate + ' ' + rowData.formattedStartTime;
         const confirmString = translate(this.context, 'confirmDeleteTime', { time: timeRecordString });
         if (confirm(confirmString)) {
-            this.setState({ updated: 0 });
+            this.setState({ updated: '0' });
             await pouchDB.deleteItemById(rowData._id);
             this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
         }
@@ -93,14 +93,15 @@ class ManageView extends PureComponent {
                                             times={projectData.times}
                                             updateHandler={this.updateTimeRecord}
                                             deleteHandler={this.deleteTimeRecord}
-                                            updated={this.state.updated} />
+                                            updated={this.state.updated}
+                                            format={this.props.format} />
                                     )}
                                 </LocalizationContext.Consumer>
 
                                 <div className='printButtonWrapper'>
                                     <div
                                         className='printButton'
-                                        onClick={exportTimes(this.props.customer, projectData, this.context)}>
+                                        onClick={exportTimes(this.props.customer, projectData, this.context, this.props.format)}>
                                         {translate(this.context, 'export')}
                                     </div>
                                 </div>
@@ -157,7 +158,8 @@ ManageView.contextType = LocalizationContext;
 ManageView.propTypes = {
     customerId: PropTypes.string.isRequired,
     customer: PropTypes.object.isRequired,
-    projects: PropTypes.array.isRequired
+    projects: PropTypes.array.isRequired,
+    format: PropTypes.string.isRequired
 };
 
 export default ManageView;

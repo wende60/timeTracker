@@ -1,14 +1,19 @@
 const FORMATS = {
-    de: {
-        date: 'dd.mm.yyyy',
-        time: 'hh:mm',
+    dmy: {
+        formatDate: 'dd.mm.yyyy',
+        formatTime: 'hh:mm',
         decimal: [',', '.']
     },
-    us: {
-        date: 'mm/dd/yyyy',
-        time: 'hh:mm',
+    ydm: {
+        formatDate: 'yyyy/dd/mm',
+        formatTime: 'h:m', // represents the 12 hours format
         decimal: ['.', ',']
-    }    
+    },
+    ymd: {
+        formatDate: 'yyyy-mm-dd',
+        formatTime: 'hh:mm',
+        decimal: ['.', ',']
+    }
 }
 
 export default FORMATS;

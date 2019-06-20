@@ -1,15 +1,14 @@
 import './TimesList.scss';
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import translate from '../../helper/translate.js';
 import timesHelper from '../../helper/timesHelper.js';
-
-// todo, set locale here
-timesHelper.init();
+import formats from '../../config/formats.js';
 
 const HOUR_UNIT = 'h';
 
 const TimesList = props => {
+    timesHelper.init(props.format);
     timesHelper.resetTotal();
 
     const handleFieldLeave = (allData, field) => e => {
@@ -86,8 +85,19 @@ const TimesList = props => {
         el.classList.add('contentEditable');
     }
 
+    const formatDate = formats[props.format].formatDate;
+    const timeFormat = formats[props.format].formatTime === 'h:m'
+        ? 'timeFormat12Hours'
+        : 'timeFormat24Hours'
+
     return (
         <div className='timesListWrapper'>
+            <div className={'formattingHints'}>
+                {`
+                    ${translate(props.dict, 'dateFormat')}: ${formatDate} -
+                    ${translate(props.dict, timeFormat)}
+                `}
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -167,7 +177,8 @@ TimesList.propTypes = {
     updateHandler: PropTypes.func.isRequired,
     deleteHandler: PropTypes.func,
     isRecording: PropTypes.object,
-    updated: PropTypes.string.isRequired
+    updated: PropTypes.string.isRequired,
+    format: PropTypes.string.isRequired
 };
 
 export default TimesList;

@@ -32,13 +32,12 @@ export const DEFAULT_STATE = {
 class Home extends PureComponent {
     constructor() {
         super();
-
         this.runner = null;
-        // default state
+
         this.state = Object.assign({
             customers: null,
             language: 'de',
-            format: 'de'
+            format: 'dmy'
         }, DEFAULT_STATE);
 
         pouchDB.init();
@@ -248,7 +247,8 @@ class Home extends PureComponent {
                         customerId={this.state.customerId}
                         projectId={this.state.projectId}
                         customer={this.state.customer}
-                        project={this.state.project} />
+                        project={this.state.project}
+                        format={this.state.format} />
                 }
 
                 {this.state.view === 'edit' &&
@@ -256,7 +256,8 @@ class Home extends PureComponent {
                         customerId={this.state.customerId}
                         customer={this.state.customer}
                         projects={this.state.project ?
-                            [this.state.project] : this.state.projects} />
+                            [this.state.project] : this.state.projects}
+                        format={this.state.format} />
                 }
 
                 {this.state.view === 'user' &&
