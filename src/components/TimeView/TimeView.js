@@ -1,6 +1,8 @@
 import './TimeView.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import pouchDB from '../../helper/handlePouchDB.js';
+import LocalizationContext from '../../context/LocalizationContext';
 import TimeButton from '../TimeButton/TimeButton.js';
 import TimesList from '../TimesList/TimesList.js';
 import {
@@ -8,7 +10,7 @@ import {
     queryTimesLimited
 } from '../../helper/customersHelper.js';
 
-class TimeView extends Component {
+class TimeView extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -66,7 +68,7 @@ class TimeView extends Component {
     displayGetTimes = async() => {
         const response = await pouchDB.findItems(queryTimesLimited(this.props.projectId));
         const times = response && response.docs.length > 0
-            ? response.docs 
+            ? response.docs
             : null;
         this.setState({ times });
     }
@@ -78,16 +80,27 @@ class TimeView extends Component {
                     buttonClick={this.createNewTimeRecord} />
 
                 {this.state.times &&
-                    <TimesList
-                        times={this.state.times}
-                        updateHandler={this.updateTimeRecord}
-                        deleteHandler={null}
-                        isRecording={this.state.record}
-                        updated={0} />
+                    <LocalizationContext.Consumer>
+                        {value => (
+                            <TimesList
+                                dict={value}
+                                times={this.state.times}
+                                updateHandler={this.updateTimeRecord}
+                                isRecording={this.state.record}
+                                updated={'0'} />
+                        )}
+                    </LocalizationContext.Consumer>
                 }
             </div>
         );
     }
+};
+
+TimeView.propTypes = {
+    customerId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
+    customer: PropTypes.object.isRequired,
+    project: PropTypes.object.isRequired
 };
 
 export default TimeView;

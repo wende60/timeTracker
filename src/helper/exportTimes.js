@@ -1,5 +1,6 @@
 import timesHelper from './timesHelper.js';
 import { createCompareString } from './customersHelper.js';
+import translate from './translate.js';
 
 // todo, set locale here
 timesHelper.init();
@@ -12,7 +13,7 @@ if (isElectron) {
 
 const CSV = ';';
 
-export const exportTimes = (customer, projectData) => e => {
+export const exportTimes = (customer, projectData, phrases) => e => {
     if (ipcRenderer) {
         // hour counter reset
         timesHelper.resetTotal();
@@ -20,12 +21,20 @@ export const exportTimes = (customer, projectData) => e => {
         // create csv customer data
         const fileName = customer.compare + '-' + createCompareString(projectData.projectName) + '.csv';
         const filecontent = [];
-        filecontent.push('Customer' + CSV + customer.name + CSV + CSV + CSV);
-        filecontent.push('Project' + CSV + projectData.projectName + CSV + CSV + CSV);
+        filecontent.push(translate(phrases, 'customer') + ': ' + CSV + customer.name + CSV + CSV + CSV);
+        filecontent.push(translate(phrases, 'project') + ': ' + CSV + projectData.projectName + CSV + CSV + CSV);
         filecontent.push(CSV + CSV  + CSV + CSV);
 
         // create csv data header
-        filecontent.push('Startdatum' + CSV + 'Startzeit' + CSV + 'Enddatum' + CSV + 'Endzeit' + CSV + 'Dauer');
+        const headerRow = [
+            translate(phrases, 'startDate'),
+            translate(phrases, 'endDate'),
+            translate(phrases, 'startTime'),
+            translate(phrases, 'endTime'),
+            translate(phrases, 'duration')
+        ];
+        const header = headerRow.join(CSV);
+        filecontent.push(header);
 
         // create each row
         projectData.times.map(row => {

@@ -1,6 +1,9 @@
 import './ManageView.scss';
-import React, { PropTypes, Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import pouchDB from '../../helper/handlePouchDB.js';
+import LocalizationContext from '../../context/LocalizationContext';
+import translate from '../../helper/translate.js';
 import TimesFilter from '../TimesFilter/TimesFilter.js';
 import TimesList from '../TimesList/TimesList.js';
 import {
@@ -10,13 +13,13 @@ import {
 } from '../../helper/customersHelper.js';
 import { exportTimes } from '../../helper/exportTimes.js';
 
-class ManageView extends Component {
+class ManageView extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             projectTimes: null,
             initialCall: false,
-            updated: 0
+            updated: '0'
         }
 
         pouchDB.init();
@@ -45,7 +48,8 @@ class ManageView extends Component {
 
     deleteTimeRecord = async(rowData) => {
         const timeRecordString = rowData.formattedStartDate + ' ' + rowData.formattedStartTime;
-        if (confirm('Echt jetzt, Zeiterfassung vom ' + timeRecordString + ' löschen?')) {
+        const confirmString = translate(this.context, 'confirmDeleteTime', { time: timeRecordString });
+        if (confirm(confirmString)) {
             this.setState({ updated: 0 });
             await pouchDB.deleteItemById(rowData._id);
             this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
@@ -75,28 +79,40 @@ class ManageView extends Component {
         return projectTimes.map((projectData, index) => {
             return (
                 <div key={index} className='projectBlockWrapper'>
-                    {projectData.times.length 
+                    {projectData.times.length
                         ?   <div>
                                 <h3>
-                                    <div>Projekt: </div>
+                                    <div>{translate(this.context, 'project')}: </div>
                                     {projectData.projectName}
                                 </h3>
-                                <TimesList
-                                    times={projectData.times}
-                                    updateHandler={this.updateTimeRecord}
-                                    deleteHandler={this.deleteTimeRecord}
-                                    isRecording={false}
-                                    updated={this.state.updated} />
+
+                                <LocalizationContext.Consumer>
+                                    {value => (
+                                        <TimesList
+                                            dict={value}
+                                            times={projectData.times}
+                                            updateHandler={this.updateTimeRecord}
+                                            deleteHandler={this.deleteTimeRecord}
+                                            updated={this.state.updated} />
+                                    )}
+                                </LocalizationContext.Consumer>
+
                                 <div className='printButtonWrapper'>
-                                    <div className='printButton' onClick={exportTimes(this.props.customer, projectData)}>Export</div>
+                                    <div
+                                        className='printButton'
+                                        onClick={exportTimes(this.props.customer, projectData, this.context)}>
+                                        {translate(this.context, 'export')}
+                                    </div>
                                 </div>
-                            </div> 
+                            </div>
                         :   <div>
                                 <h3>
-                                    <div>Projekt: </div>
+                                    <div>{translate(this.context, 'project')}: </div>
                                     {projectData.projectName}
                                 </h3>
-                                <div className='messageHeader'>In diesem Zeitraum sind keine Zeiten verfügbar</div>
+                                <div className='messageHeader'>
+                                    {translate(this.context, 'errorFilter')}
+                                </div>
                             </div>
                     }
                 </div>
@@ -112,8 +128,8 @@ class ManageView extends Component {
     }
 
     createCustomerMessageHeader = () => {
-        const header = this.state.initialCall 
-            ? <div className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</div> 
+        const header = this.state.initialCall
+            ? <div className='messageHeader'>Für diesen Kunden gibt es noch kein Projekt</div>
             : null;
         return header;
     }
@@ -134,6 +150,14 @@ class ManageView extends Component {
             </div>
         )
     };
+};
+
+ManageView.contextType = LocalizationContext;
+
+ManageView.propTypes = {
+    customerId: PropTypes.string.isRequired,
+    customer: PropTypes.object.isRequired,
+    projects: PropTypes.array.isRequired
 };
 
 export default ManageView;

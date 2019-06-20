@@ -1,0 +1,22 @@
+@import '../../styles/extensions.scss';
+
+.userWrapper {
+    min-height: 100%;
+
+    h2 {
+        font-size: 18px;
+        padding: 20px 0 20px 0;
+    }
+
+    select {
+        min-width: 50%;
+        border: 2px solid #ffffff;
+        background: none;
+        font-size: 15px;
+        padding: 6px;
+        color: #ffffff;
+        outline: none;
+    }
+
+    @extend %moveInAnimation;
+}

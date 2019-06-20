@@ -2,8 +2,9 @@ import './MainView.scss';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import pouchDB from '../../helper/handlePouchDB.js';
+import LocalizationContext from '../../context/LocalizationContext';
+import translate from '../../helper/translate.js';
 import ItemForm from '../ItemForm/ItemForm.js';
-
 import {
     createCustomer,
     createProject,
@@ -14,60 +15,62 @@ import {
 class MainView extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = { 
-            error: false 
+        this.state = {
+            error: false
         };
 
         pouchDB.init();
     }
 
-    componentWillMount() {
-        this.setState(this.state);
-    }
-
-    componentWillReceiveProps() {
-        this.setState({ error: false });
-    }
-
     createNewCustomer = async(addString) => {
         const newCustomer = createCustomer(addString, this.props.customers);
         if (newCustomer) {
+            this.setState({ error: false });
             const response = await pouchDB.addItem(newCustomer);
             this.props.setStateCustomers();
         } else {
-            this.setState({ error: 'Diesen Kunden gibt es schon!' });
+            const error = translate(this.context, 'errorCustomerAvailable');
+            this.setState({ error });
         }
     }
 
     createNewProject = async(addString) => {
         const newProject = createProject(addString, this.props.customerId, this.props.projects);
         if (newProject) {
+            this.setState({ error: false });
             const response = await pouchDB.addItem(newProject);
             this.props.setStateProjects();
         } else {
-            this.setState({ error: 'Dieses Projekt gibt es schon!' });
+            const error = translate(this.context, 'errorProjectAvailable');
+            this.setState({ error });
         }
     }
 
     selectCustomer = e => {
+        this.setState({ error: false });
         this.props.setStateCustomer(e.currentTarget.dataset.item);
     }
 
     selectProject = e => {
+        this.setState({ error: false });
         this.props.setStateProject(e.currentTarget.dataset.item);
     }
 
     deleteCustomer = async(e) => {
+        this.setState({ error: false });
         const response = await pouchDB.findItemById(e.currentTarget.dataset.item);
-        if (response && confirm('Echt jetzt, Kunde ' + response.name + ' mit allen Projekten und Zeiten löschen?')) {
+        const confirmString = translate(this.context, 'confirmDeleteCustomer', { customer: response.name });
+        if (response && confirm(confirmString)) {
             await pouchDB.deleteItems(queryAllCustomerData(response._id));
             this.props.setStateCustomers();
         }
     }
 
     deleteProject = async(e) => {
+        this.setState({ error: false });
         const response = await pouchDB.findItemById(e.currentTarget.dataset.item);
-        if (response && confirm('Echt jetzt, Projekt ' + response.name + ' mit allen Zeiten löschen?')) {
+        const confirmString = translate(this.context, 'confirmDeleteProject', { project: response.name });
+        if (response && confirm(confirmString)) {
             await pouchDB.deleteItems(queryAllProjectData(response._id));
             this.props.setStateProjects();
         }
@@ -76,7 +79,6 @@ class MainView extends PureComponent {
     render() {
         return (
             <div className='mainViewWrapper'>
-
                 {this.state.error &&
                     <div className="errorMessage">
                         {this.state.error}
@@ -100,11 +102,12 @@ class MainView extends PureComponent {
                         selectClick={this.selectProject}
                         deleteClick={this.deleteProject} />
                 }
-
             </div>
         );
     }
 };
+
+MainView.contextType = LocalizationContext;
 
 MainView.propTypes = {
     customers: PropTypes.array,

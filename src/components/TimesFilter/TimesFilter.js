@@ -1,6 +1,8 @@
 import './TimesFilter.scss';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import LocalizationContext from '../../context/LocalizationContext';
+import translate from '../../helper/translate.js';
 import timesHelper from '../../helper/timesHelper.js';
 
 // todo, set locale here
@@ -50,7 +52,7 @@ class TimesFilter extends PureComponent {
 
     getYears = () => {
         const maxLength = 10;
-        const years = [{ value: '', label: 'alle Jahre' }];
+        const years = [{ value: '', label: translate(this.context, 'allYears') }];
         let currentYear = new Date().getFullYear();
         while (years.length < maxLength) {
             years.push({ value: currentYear, label: currentYear });
@@ -61,7 +63,7 @@ class TimesFilter extends PureComponent {
 
     getMonths = () => {
         return [
-            { value: '', label: 'alle Monate' },
+            { value: '', label: translate(this.context, 'allMonth') },
             { value: 1, label: 'Januar' },
             { value: 2, label: 'Februar' },
             { value: 3, label: 'März' },
@@ -81,7 +83,7 @@ class TimesFilter extends PureComponent {
         const monthClass = this.state.year ? 'selectActive'  : 'selectDisabled';
         return (
             <div className='timesFilterWrapper'>
-                <div>Zeiten filtern</div>
+                <div>{translate(this.context, 'filterTimes')}</div>
                 <form>
                     <select
                         ref='selectedYear'
@@ -94,12 +96,14 @@ class TimesFilter extends PureComponent {
                         onChange={this.handleFilterChange}
                         disabled={!this.state.year}>
                             {this.getOptions(this.getMonths())}
-                    </select>                    
+                    </select>
                 </form>
             </div>
         )
     };
 };
+
+TimesFilter.contextType = LocalizationContext;
 
 TimesFilter.propTypes = {
     timesFilterChange: PropTypes.func.isRequired

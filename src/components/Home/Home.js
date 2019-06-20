@@ -1,13 +1,18 @@
 import './Home.scss';
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import pouchDB from '../../helper/handlePouchDB.js';
+import LocalizationContext from '../../context/LocalizationContext';
+import translate from '../../helper/translate.js';
 import Selections from '../Selections/Selections.js';
 import MainView from '../MainView/MainView.js';
 import TimeView from '../TimeView/TimeView.js';
 import ManageView from '../ManageView/ManageView.js';
+import UserView from '../UserView/UserView.js';
 import iconOverview from '../../assets/iconsTimeTrackerOverview.svg';
 import iconRecord from '../../assets/iconsTimeTrackerRecord.svg';
 import iconEdit from '../../assets/iconsTimeTrackerEdit.svg';
+import iconUser from '../../assets/iconsTimeTrackerUser.svg';
 
 import {
     queryCustomers,
@@ -28,35 +33,44 @@ class Home extends PureComponent {
     constructor() {
         super();
 
+        this.runner = null;
         // default state
-        this.state = Object.assign({}, DEFAULT_STATE);
-
-        // fallback for customers as it is loades async
-        this.state.customers = null;
+        this.state = Object.assign({
+            customers: null,
+            language: 'de',
+            format: 'de'
+        }, DEFAULT_STATE);
 
         pouchDB.init();
         this.getStoredState();
     }
 
     componentDidMount() {
-        this.setState(this.state);
+        this.props.changeLanguage(this.state.language);
     }
 
-    componentDidUpdate() {
-        this.storeState();
+    componentDidUpdate(_prevProps, prevState) {
+        // avoid too many updates of stored state as it results in pochdb update-conflicts
+        clearTimeout(this.runner);
+        this.runner = setTimeout(() => {
+            this.storeState();
+        }, 500);
+
+        if (this.state.language !== prevState.language) {
+            this.props.changeLanguage(this.state.language);
+        }
     }
 
     getStoredState = async() => {
         const response = await pouchDB.findItemById('storedAppState');
         const stateData = response && response.stateData
             ? response.stateData
-            : null;
+            : {};
 
-        if (stateData) {
-            this.setState(stateData)
-        } else {
-            this.setStateCustomers();
-        }
+        // set stored state and add - in case - customers
+        this.setState(stateData, () => {
+            !this.state.customers && this.setStateCustomers();
+        });
     };
 
     setStateCustomers = async() => {
@@ -117,29 +131,38 @@ class Home extends PureComponent {
         });
     };
 
+    userchangeHandler = (language, format) => {
+        this.setState({
+            language,
+            format
+        });
+    };
+
     storeState = () => {
         const currentState = {
             _id: 'storedAppState',
             stateData: this.state
         }
-        pouchDB.replaceItem(currentState);
+        pouchDB.updateItem(currentState);
     }
 
     changeView = view => e => {
         this.setState({ error: false });
+        const errorTime = translate(this.context, 'errorSelectCustomerAndProject');
+        const errorEdit = translate(this.context, 'errorSelectCustomer');
         switch (view) {
             case 'time':
                 if (this.state.projectId) {
                     this.setState({ view });
                 } else {
-                    this.setState({ error: 'Bitte erst Kunde und Projekt wählen' });
+                    this.setState({ error: errorTime });
                 }
                 break;
             case 'edit':
                 if (this.state.customerId) {
                     this.setState({ view });
                 } else {
-                    this.setState({ error: 'Bitte zumindestens Kunde, oder Kunde und Projekt wählen' });
+                    this.setState({ error: errorEdit });
                 }
                 break;
             default:
@@ -155,9 +178,10 @@ class Home extends PureComponent {
         const timeActiveClass = this.state.customerId && this.state.projectId ? 'isActive' : 'inActive';
         const editActiveClass = this.state.customerId ? 'isActive' : 'inActive';
         const classes = {
-            main: ['homeButton', 'isActive'],
-            time: ['timeButton', timeActiveClass],
-            edit: ['editButton', editActiveClass]
+            main: ['button', 'homeButton', 'isActive'],
+            time: ['button', 'timeButton', timeActiveClass],
+            edit: ['button', 'editButton', editActiveClass],
+            user: ['button', 'userButton', 'isActive']
         };
         classes[this.state.view].push('selected');
 
@@ -168,26 +192,36 @@ class Home extends PureComponent {
                         <h1>TimeTracker</h1>
                     </div>
                     <div>
-                        <Selections
-                            customerClick={this.customerClickHandler}
-                            customerName={this.state.customer ? this.state.customer.name : ''}
-                            projectName={this.state.project ? this.state.project.name : ''} />
+                        <LocalizationContext.Consumer>
+                            {value => (
+                                <Selections
+                                    dict={value}
+                                    customerClick={this.customerClickHandler}
+                                    customerName={this.state.customer ? this.state.customer.name : ''}
+                                    projectName={this.state.project ? this.state.project.name : ''} />
+                            )}
+                        </LocalizationContext.Consumer>
                     </div>
                 </div>
 
                 <div className='timeTrackerNavi'>
                     <div>
-                        <span className={classes.main.join(' ')}
-                            onClick={this.backToMainView} title='Home'
-                            dangerouslySetInnerHTML={{__html:iconOverview}}></span>
+                        <div className={classes.main.join(' ')}
+                            onClick={this.backToMainView} title='Select customer and project'
+                            dangerouslySetInnerHTML={{__html:iconOverview}}></div>
 
-                        <span className={classes.time.join(' ')}
-                            onClick={this.changeView('time')} title='Time'
-                            dangerouslySetInnerHTML={{__html:iconRecord}}></span>
+                        <div className={classes.time.join(' ')}
+                            onClick={this.changeView('time')} title='Push the time-button'
+                            dangerouslySetInnerHTML={{__html:iconRecord}}></div>
 
-                        <span className={classes.edit.join(' ')}
-                            onClick={this.changeView('edit')} title='Edit'
-                            dangerouslySetInnerHTML={{__html:iconEdit}}></span>
+                        <div className={classes.edit.join(' ')}
+                            onClick={this.changeView('edit')} title='Edit time records'
+                            dangerouslySetInnerHTML={{__html:iconEdit}}></div>
+                    </div>
+                    <div>
+                        <div className={classes.user.join(' ')}
+                            onClick={this.changeView('user')} title='User settings'
+                            dangerouslySetInnerHTML={{__html:iconUser}}></div>
                     </div>
                 </div>
 
@@ -224,9 +258,22 @@ class Home extends PureComponent {
                         projects={this.state.project ?
                             [this.state.project] : this.state.projects} />
                 }
+
+                {this.state.view === 'user' &&
+                    <UserView
+                        language={this.state.language}
+                        format={this.state.format}
+                        changeHandler={this.userchangeHandler} />
+                }
             </div>
         );
     }
+};
+
+Home.contextType = LocalizationContext;
+
+Home.propTypes = {
+    changeLanguage: PropTypes.func.isRequired
 };
 
 export default Home;
