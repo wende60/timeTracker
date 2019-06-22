@@ -31,3 +31,14 @@ TODOS:
 - add linter
 - add tests
 
+Select a project
+-----------------------
+![projects](https://user-images.githubusercontent.com/15124946/59964336-b07c0580-94ff-11e9-9b18-94b63998613f.png)
+
+Press the button
+-----------------------
+![button](https://user-images.githubusercontent.com/15124946/59964334-b07c0580-94ff-11e9-80d6-ca0d19aa6c65.png)
+
+Keep overview
+-----------------------
+![overview](https://user-images.githubusercontent.com/15124946/59964335-b07c0580-94ff-11e9-934c-a26fadaf2d9c.png)
