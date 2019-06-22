@@ -3,6 +3,14 @@
 .timesListWrapper {
     padding: 20px 0 20px 0;
 
+    .formattingHints {
+        padding: 0 0 10px 0;
+        margin: 0 0 10px 0;
+        border-bottom: 1px solid #ffffff;
+        font-size: 12px;
+        color: #ffffff;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;

@@ -2,9 +2,6 @@ import timesHelper from './timesHelper.js';
 import { createCompareString } from './customersHelper.js';
 import translate from './translate.js';
 
-// todo, set locale here
-timesHelper.init();
-
 const isElectron = process.env.NODE_ENV === 'electron' ? true : false;
 let ipcRenderer = false;
 if (isElectron) {
@@ -13,9 +10,9 @@ if (isElectron) {
 
 const CSV = ';';
 
-export const exportTimes = (customer, projectData, phrases) => e => {
+export const exportTimes = (customer, projectData, phrases, format) => e => {
     if (ipcRenderer) {
-        // hour counter reset
+        timesHelper.init(format);
         timesHelper.resetTotal();
 
         // create csv customer data
@@ -28,8 +25,8 @@ export const exportTimes = (customer, projectData, phrases) => e => {
         // create csv data header
         const headerRow = [
             translate(phrases, 'startDate'),
-            translate(phrases, 'endDate'),
             translate(phrases, 'startTime'),
+            translate(phrases, 'endDate'),
             translate(phrases, 'endTime'),
             translate(phrases, 'duration')
         ];

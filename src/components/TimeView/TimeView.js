@@ -87,7 +87,8 @@ class TimeView extends PureComponent {
                                 times={this.state.times}
                                 updateHandler={this.updateTimeRecord}
                                 isRecording={this.state.record}
-                                updated={'0'} />
+                                updated={'0'}
+                                format={this.props.format} />
                         )}
                     </LocalizationContext.Consumer>
                 }
@@ -100,7 +101,8 @@ TimeView.propTypes = {
     customerId: PropTypes.string.isRequired,
     projectId: PropTypes.string.isRequired,
     customer: PropTypes.object.isRequired,
-    project: PropTypes.object.isRequired
+    project: PropTypes.object.isRequired,
+    format: PropTypes.string.isRequired
 };
 
 export default TimeView;

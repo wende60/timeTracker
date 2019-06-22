@@ -1,14 +1,22 @@
+import formats from '../config/formats.js';
+
 const timesHelper = {
-    config: {
+    defaults: {
         formatRegEx: /(\.|\-|\/|\||\:)/,
-        formatDate: 'dd.mm.yyyy',
-        formatTime: 'hh:mm',
+        format12HoursRegEx: /^([0-9]{1,2})\s*([A-Z]{2})$/i,
+        formatDate: formats.dmy.formatDate, // default
+        formatTime: formats.dmy.formatTime,  // default
         regExpDate: false,
         regExpTime: false,
-        decimal: [',', '.'] // replace second with first
+        decimal: formats.dmy.decimal  // default
     },
 
-    init() {
+    init(format) {
+        this.config = {
+            ...this.defaults,
+            ...formats[format]
+        };
+
         const formatPartsDate = this.config.formatDate.split(this.config.formatRegEx);
         const regExpDate = formatPartsDate.map(item => {
             if (/[a-z]/i.exec(item)) {
@@ -22,7 +30,9 @@ const timesHelper = {
         const formatPartsTime = this.config.formatTime.split(this.config.formatRegEx);
         const regExpTime = formatPartsTime.map(item => {
             if (/[a-z]/i.exec(item)) {
-                return '([0-9]{' + item.length + '})';
+                return item === 'm'
+                    ? '([0-9]{1,2}\\s*[a-zA-Z]{2})' // we deal with 'h:m' which represents 12 hours format
+                    : '([0-9]{' + item.length + '})';
             } else {
                 return '\\' + item;
             }
@@ -30,20 +40,72 @@ const timesHelper = {
         this.config.regExpTime = new RegExp(regExpTime.join(''));
     },
 
-    createDateFromFormattedStrings(dateString, timeString) {
-        const dateParts = this.config.regExpDate.exec(dateString);
-        const timeParts = this.config.regExpTime.exec(timeString);
+    createDateFromString(dateString) {
+        let year = 0;
+        let month = 0;
+        let day = 0;
+        let counter = 1;
 
-        if (!dateParts || !timeParts) {
-            return false;
+        const dateParts = this.config.regExpDate.exec(dateString);
+        if (!dateParts) {
+            return { year, month, day };
         }
+
+        const formatParts = this.config.formatDate.split(this.config.formatRegEx);
+        formatParts.forEach(item => {
+            switch (item) {
+                case 'dd':
+                    day = dateParts[counter];
+                    counter += 1;
+                    break;
+                case 'mm':
+                    month = dateParts[counter] - 1;
+                    counter += 1;
+                    break;
+                case 'yyyy':
+                    year = dateParts[counter];
+                    counter += 1;
+                    break;
+            }
+        });
+
+        return { year, month, day };
+    },
+
+    createTimeFromString(timeString) {
+        const timeParts = this.config.regExpTime.exec(timeString);
+        let hours = timeParts ? timeParts[1] : 0;
+        let minutes = timeParts ? timeParts[2] : 0;
+
+        // 'h:m' represents 12 hours time format
+        // minutes will contain the AM / PM suffix
+        // recalculate hours and replace suffix from minutes
+        if (this.config.formatTime === 'h:m') {
+            const minuteParts = this.config.format12HoursRegEx.exec(minutes);
+            if (minuteParts) {
+                const ampm = minuteParts[2];
+                hours = ampm.toLowerCase() === 'pm'
+                    ? parseInt(hours) + 12
+                    : hours;
+                minutes = minuteParts[1];
+            }
+        }
+
+        return { hours, minutes };
+    },
+
+    createDateFromFormattedStrings(dateString, timeString) {
+        const { year, month, day} = this.createDateFromString(dateString);
+        const { hours, minutes } = this.createTimeFromString(timeString);
+
         return new Date(
-            dateParts[3],
-            dateParts[2] -1,
-            dateParts[1],
-            timeParts[1],
-            timeParts[2],
-            timeParts[3] || 0).getTime();
+            year,
+            month,
+            day,
+            hours,
+            minutes,
+            0
+        ).getTime();
     },
 
     createDateFromParts(y,m,d,h = 0, i = 0, s = 0) {
@@ -55,14 +117,8 @@ const timesHelper = {
         let dateString = "";
         formatParts.forEach(item => {
             switch (item) {
-                case 'd':
-                    dateString += date;
-                    break;
                 case 'dd':
                     dateString += this.leadingZero(date);
-                    break;
-                case 'm':
-                    dateString += month;
                     break;
                 case 'mm':
                     dateString += this.leadingZero(month);
@@ -77,22 +133,29 @@ const timesHelper = {
         return dateString;
     },
 
-    createFormattedTime(hour, minute) {
+    createFormattedTime(hours, minutes) {
         const formatParts = this.config.formatTime.split(this.config.formatRegEx);
+        const hoursInt = parseInt(hours);
         let timeString  = "";
         formatParts.forEach(item => {
             switch (item) {
                 case 'h':
-                    timeString += hour;
+                    const hours12h = hoursInt > 12
+                        ? hoursInt % 12
+                        : hoursInt;
+                    timeString += this.leadingZero(hours12h);
                     break;
                 case 'hh':
-                    timeString += this.leadingZero(hour);
+                    timeString += this.leadingZero(hours);
                     break;
                 case 'm':
-                    timeString += minute;
+                    const ampm = hoursInt > 12
+                        ? 'PM'
+                        : 'AM';
+                    timeString += this.leadingZero(minutes) + ' ' + ampm;
                     break;
                 case 'mm':
-                    timeString += this.leadingZero(minute);
+                    timeString += this.leadingZero(minutes);
                     break;
                 default:
                     timeString += item;

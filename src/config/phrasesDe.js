@@ -27,6 +27,10 @@ const PHRASES = {
     errorFilter: 'Für diesem Zeitraum sind keine Zeiten verfügbar',
     export: 'Zeiten als csv Datei exportieren',
     selectLanguage: 'Sprache wählen',
+    selectedFormat: 'Datumsformat wählen',
+    dateFormat: 'Datumsformat',
+    timeFormat24Hours: 'Zeitformat 24 h, hh:mm',
+    timeFormat12Hours: 'Zeitformat 12 h, hh:mm AM/PM',
 }
 
 export default PHRASES;
