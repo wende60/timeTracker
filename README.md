@@ -5,7 +5,7 @@ Based on Electron + Webpack + React + Sass + pouchdb.
 Features:
 - add or select a customer
 - add or select a project for a selected customer
-- press the time button -> time record was started or stopped
+- press the time button to start and stop a time record
 - edit time record if you need to correct it
 - see overview of all time records for a customer / project
 - export project's time records to a cvs file
