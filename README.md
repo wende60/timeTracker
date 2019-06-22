@@ -2,14 +2,23 @@ timeTracker
 -----------------------
 
 Based on Electron + Webpack + React + Sass + pouchdb.
-Work in progress, not ready yet!
+Features:
+- add or select a customer
+- add or select a project for a selected customer
+- press the time button -> time record was started or stopped
+- edit time record if you need to correct it
+- see overview of all time records for a customer / project
+- export project's time records to a cvs file
+- select between german and english language
+- select date and time formt (dd.mm.yyy hh:mm 24h, yyyy/dd/mm hh:mm 12h, yyyy-mm-dd hh:mm 24h)
 
-Different date formattings are planned, so far only dd.mm.yyy hh:mm is available...
+Feel free to give feedback to the phrases as i am no native english speaker...
 
 UPDATES 2019
 - moved to webpack 4
 - remove callbacks with async-await
-- Select between english and german
+- add PropTypes
+- localization (language and formats)
 
 run 
 - npm install to unstall all npm modules
@@ -17,4 +26,8 @@ run
 - npm run electronDebug to open electron window with console output
 - npm run electron to open electron window without console output
 - npm run bin to create app for mac (win and linux are in place, edit package.json)
+
+TODOS:
+- add linter
+- add tests
 
