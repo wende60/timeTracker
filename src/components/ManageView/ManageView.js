@@ -19,7 +19,9 @@ class ManageView extends PureComponent {
         this.state = {
             projectTimes: null,
             initialCall: false,
-            updated: '0'
+            updated: '0',
+            filterTimeStart: false,
+            filterTimeEnd: false
         }
 
         pouchDB.init();
@@ -28,6 +30,13 @@ class ManageView extends PureComponent {
 
     componentWillMount() {
         this.setState(this.state);
+    }
+
+    getQueryForState() {
+        const { filterTimeStart, filterTimeEnd } = this.state;
+        return filterTimeStart && filterTimeEnd
+            ? queryTimesCustomerFiltered(this.props.customerId, filterTimeStart, filterTimeEnd)
+            : queryTimesCustomer(this.props.customerId);
     }
 
     updateTimeRecord = async(id, start, end, customerId, customerName, projectId, projectName) => {
@@ -43,7 +52,9 @@ class ManageView extends PureComponent {
 
         this.setState({ updated: id });
         await pouchDB.updateItem(timeRecord);
-        this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
+
+        const query = this.getQueryForState();
+        this.displayCustomerTimes(query);
     }
 
     deleteTimeRecord = async(rowData) => {
@@ -52,7 +63,9 @@ class ManageView extends PureComponent {
         if (confirm(confirmString)) {
             this.setState({ updated: '0' });
             await pouchDB.deleteItemById(rowData._id);
-            this.displayCustomerTimes(queryTimesCustomer(this.props.customerId));
+
+            const query = this.getQueryForState();
+            this.displayCustomerTimes(query);
         }
     }
 
@@ -122,10 +135,10 @@ class ManageView extends PureComponent {
     }
 
     timesFilterChange = (filterTimeStart, filterTimeEnd) => {
-        const query = filterTimeStart && filterTimeEnd
-            ? queryTimesCustomerFiltered(this.props.customerId, filterTimeStart, filterTimeEnd)
-            : queryTimesCustomer(this.props.customerId);
-        this.displayCustomerTimes(query);
+        this.setState({ filterTimeStart, filterTimeEnd }, () => {
+            const query = this.getQueryForState();
+            this.displayCustomerTimes(query);
+        });
     }
 
     createCustomerMessageHeader = () => {
