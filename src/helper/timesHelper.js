@@ -59,7 +59,7 @@ const timesHelper = {
                     counter += 1;
                     break;
                 case 'mm':
-                    month = dateParts[counter] - 1;
+                    month = dateParts[counter];
                     counter += 1;
                     break;
                 case 'yyyy':
@@ -97,15 +97,7 @@ const timesHelper = {
     createDateFromFormattedStrings(dateString, timeString) {
         const { year, month, day} = this.createDateFromString(dateString);
         const { hours, minutes } = this.createTimeFromString(timeString);
-
-        return new Date(
-            year,
-            month,
-            day,
-            hours,
-            minutes,
-            0
-        ).getTime();
+        return this.createDateFromParts(year, month, day, hours, minutes);
     },
 
     createDateFromParts(y,m,d,h = 0, i = 0, s = 0) {
