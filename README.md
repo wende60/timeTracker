@@ -12,7 +12,7 @@ Features:
 - select between german and english language
 - select date and time formt (dd.mm.yyy hh:mm 24h, yyyy/dd/mm hh:mm 12h, yyyy-mm-dd hh:mm 24h)
 
-Feel free to give feedback to the phrases as i am no native english speaker...
+Feel free to give feedback to the phrases as i am no native english speaker... feel free to give feedback anyways ;)
 
 UPDATES 2019
 - moved to webpack 4
