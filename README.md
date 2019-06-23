@@ -31,6 +31,8 @@ TODOS:
 - add linter
 - add tests
 
+A Mac-build can be downloaded from here: http://timetracker.wendenburg.de/download/TimeTracker.app.zip
+
 Select a project
 -----------------------
 ![projects](https://user-images.githubusercontent.com/15124946/59964336-b07c0580-94ff-11e9-9b18-94b63998613f.png)
