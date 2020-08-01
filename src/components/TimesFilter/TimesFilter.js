@@ -34,7 +34,8 @@ class TimesFilter extends PureComponent {
         if (year) {
             const lastDayOfMonth = timesHelper.getLastDayOfMonth(year, endMonth);
             startDate = timesHelper.createDateFromParts(year, startMonth, 1);
-            endDate = timesHelper.createDateFromParts(year, endMonth, lastDayOfMonth);
+            // endDate mus be the last second of the day in order not to exclude records during the last day
+            endDate = timesHelper.createDateFromParts(year, endMonth, lastDayOfMonth, 23, 59, 59);
         } else {
             this.refs['selectedMonth'].selectedIndex = 0;
         }
