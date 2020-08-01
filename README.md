@@ -14,6 +14,9 @@ Features:
 
 Feel free to give feedback to the phrases as i am no native english speaker... feel free to give feedback anyways ;)
 
+UPDATES 2020
+- fixed a bug that occured while filtering for a month in the overview page
+
 UPDATES 2019
 - moved to webpack 4
 - remove callbacks with async-await
